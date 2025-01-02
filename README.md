@@ -16,6 +16,7 @@
   * Placer les cases en arg des fct `lecture` et `ecriture` une fois les fonctions `encode` et `decode` suffisemment aboutit (voir terminé)
   * écrire la fct `reedsolomon_decode`
   * trouver les `emplacement des motif d'alignement` et la `taille` des QRcode en foonction des versions
+  * recommenter l 537 --> 621
 * Dans image_QRcode_to_liste.py
   * revoir `recalibrage`
 * Dans reed-solomon.py
