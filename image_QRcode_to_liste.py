@@ -3,8 +3,6 @@ import matplotlib.image as mpimg
 import os
 import numpy as np
 
-"""revoir recalibrage"""
-
 os.chdir('./image_test_QRcode')
 QRcode = (mpimg.imread('Qr-2.png')).tolist()
 QRcode_multic = (mpimg.imread('QRcode_coca.jpg')).tolist()
@@ -74,4 +72,4 @@ QRcode = recalibrage(QRcode)
 plt.imshow(QRcode, cmap='gray', clim=(0,1))
 plt.show()"""
 blanc, noir = [1.0,1.0,1.0], [0.0,0.0,0.0]
-print(distance(blanc, noir))
+"""print(distance(blanc, noir))"""

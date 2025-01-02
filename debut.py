@@ -1,9 +1,6 @@
 import matplotlib.pyplot as plt
 import random as rd
 # 0 = noir et 1 = blanc
-"""
-penser à placer les cases en argument des fonctions lecture et ecriture une fois les fonctions encode et decode quffisemment aboutit (voir terminé)
-"""
 
 def init(n:int):
     """Créé un un tableau (liste de liste) de taille n*n remplit de 0
@@ -539,11 +536,21 @@ def main():
     c = cases_interdites(L)
     #appli_mask(L, 101, c)
     K = []
+    """
     for i in range(72):
         K.append([1,1,0,0,1,0,1,1])
     données = octetstoliste(K)
     encode(L,données,101)
     affiche_image(L)
+    """
+    """
+    for i in range(72):
+        K.append([18,17,16,15,14,13,12,11])
+    données = octetstoliste(K)
+    ecriture(L,données)
+    plt.imshow(L, cmap='rainbow', clim=(0,20))
+    plt.show()
+    """
 
 # print("Done importing")
 if __name__ == "__main__":
