@@ -628,11 +628,15 @@ def main():
     c = cases_interdites(L)
     #appli_mask(L, 101, c)
     K = []
+    Helloworld_rs = encode_info("Hello World", 7, "alphanumérique")
+    encode(L,Helloworld_rs, 100, None, None)
+    print(Helloworld_rs, len(Helloworld_rs)%8)
+    affiche_image(L)
     """
     for i in range(72):
         K.append([1,1,0,0,1,0,1,1])
     données = octetstoliste(K)
-    encode(L,données,101)
+    encode(L,données,101,None,None)
     affiche_image(L)
     """
     """
@@ -650,4 +654,4 @@ if __name__ == "__main__":
     main()
 
 #print(reedsolomon([1,0,0,1,0,1,1,0], 7))
-print(encode_info("Hello", 7, "alphanumérique"))
+#print(encode_info("Hello", 7, "alphanumérique"))
