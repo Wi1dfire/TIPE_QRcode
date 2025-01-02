@@ -539,6 +539,11 @@ def main():
     c = cases_interdites(L)
     #appli_mask(L, 101, c)
     K = []
+    for i in range(72):
+        K.append([1,1,0,0,1,0,1,1])
+    données = octetstoliste(K)
+    encode(L,données,101)
+    affiche_image(L)
 
 # print("Done importing")
 if __name__ == "__main__":
