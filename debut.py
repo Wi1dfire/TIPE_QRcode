@@ -1,5 +1,7 @@
+import re
 import matplotlib.pyplot as plt
 import random as rd
+import reedsolo as rs
 # 0 = noir et 1 = blanc
 
 def init(n:int):
@@ -528,6 +530,92 @@ def decode(L):
     données = lecture(L) # on lit les données du QRcode
     return données
 
+def reedsolomon(octets:list, lvl : int):
+    """(GC) Encode les données avec le code correcteur de Reed-Solomon
+
+    Args:
+        octets (list): données à encoder
+        lvl (int): niveau de correction
+    """
+    rs.init_tables(0x11d)
+    data = octetstoliste(octets)
+    n = len(data)
+    ecc = rs.rs_encode_msg(data, n, lvl)
+    L = []
+    for i in range(len(ecc)):
+        L.append(int_to_bin(ecc[i]))
+    return L
+
+def reedsolomon_decode(L:list, octets:list, lvl : int):
+    pass
+
+def typeinfo(L:str):
+    """Retourne le type d'information
+
+    Args:
+        L (str): information
+
+    Returns:
+        str: type d'information
+    """
+    if bool(re.search("^[0-9]*$", L)):
+        return "numérique"
+    if bool(re.search("^[A-Za-z0-9]*$", L)):
+        return "alphanumérique"
+    return "kanji"
+
+def int_to_bin(n:int):
+    """Transforme un entier en binaire
+
+    Args:
+        n (int): entier
+
+    Returns:
+        str: entier en binaire
+    """
+    return format(n, '08b')
+
+def str_to_bin(L:str):
+    """Transforme une chaine de caractère en binaire
+
+    Args:
+        L (str): chaine de caractère
+
+    Returns:
+        str: chaine de caractère en binaire
+    """
+    res = ""
+    for i in range(len(L)):
+        res += format(ord(L[i]), '08b')
+    return res
+
+def encode_info(L:str, lvl:int, type:str):
+    """Encode les informations dans un QRcode
+
+    Args:
+        L (str): information à encoder
+        lvl (int): niveau de correction
+        type (str): type d'information
+    Returns:
+        data (list): données encodées pas rs
+    """
+    data = []
+    if type == None:
+        type = typeinfo(L)
+    if type == "binaire":
+        data = [0,1,0,0]
+    if type == "numérique":
+        data = [0,0,0,1]
+    if type == "alphanumérique":
+        data = [0,0,1,0]
+    if type == "kanji":
+        data = [1,0,0,0]
+    donnees = str_to_bin(L)
+    data += int_to_bin(len(donnees)) + donnees + [0,0,0,0]
+    reed = reedsolomon(data, lvl)
+    data += reed 
+    return data
+
 def main():
     L = Gen_QRcode(29,True)
     n=len(L)-1
@@ -554,20 +642,12 @@ def main():
 
 # print("Done importing")
 if __name__ == "__main__":
-    print("Executing main")
+    #print("Executing main")
     main()
 
-"""for i in range(72):
-    K.append([1,1,0,0,1,0,1,1])
-données = octetstoliste(K)
-encode(L,données,101)
-affiche_image(L)"""
-
-"""
-for i in range(72):
-    K.append([18,17,16,15,14,13,12,11])
-données = octetstoliste(K)
-ecriture(L,données)
-plt.imshow(L, cmap='rainbow', clim=(0,20))
-plt.show()
-"""
+"""print(typeinfo("dsqf4gfqf"))
+print(typeinfo("dsqfgfqf"))
+print(typeinfo("5465765486"))
+print(typeinfo("0110011001100110"))
+print(typeinfo("漢字"))"""
+print(reedsolomon([[1,0,1,0,0,1,1,0]], 7))

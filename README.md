@@ -14,5 +14,8 @@
 
 * Dans debut.py
   * Placer les cases en arg des fct `lecture` et `ecriture` une fois les fonctions `encode` et `decode` suffisemment aboutit (voir terminé)
+  * revoir la fct `reedsolomon`
 * Dans image_QRcode_to_liste.py
   * revoir `recalibrage`
+*Dans reed-solomon.py
+  *Tout
