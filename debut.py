@@ -217,6 +217,10 @@ def cases_interdites(L:list):
         for j in range (5):
             for k in range(5):
                 cases.append((i[0]-3+j,i[1]-3+k))
+    for i in range (6): #on protège les zones contenant les informations sur la version
+        for j in range (3):
+            cases.append((i,n-11+j))
+            cases.append((n-11+j,i))
     return cases
 
 def retour_octet(L:list):
@@ -311,7 +315,7 @@ def ecriture(L:list, Données:list):
 
     Args:
         L (list): QRcode dans lequel écrire les octets
-        octets (list): liste de données en binaire
+        Données (list): liste de données en binaire
 
     Returns:
         list: QRcode
@@ -497,13 +501,13 @@ def appli_mask(L, mask, interdit):
     if mask == 111:
         mask_111(L, interdit)
 
-def encode(L, octets, mask):
+def encode(L, octets, mask, lvl, type):
     """Encode les informations sous la forme d'une list de bits dans un QRcode
 
     Args:
-        L (_type_): QRcode
-        octets (_type_): informations à encoder dans le QRcode
-        mask (_type_): masque voulut
+        L (list): QRcode
+        octets (list): informations à encoder dans le QRcode
+        mask (int): masque voulut
     """
     ###L = Gen_QRcode(len(octets)//2,True) #TROUVER UNE FORMULE POUR LA TAILLE (ça serait pas mal)
     verboten = cases_interdites(L) #on liste les emplacements interdit
@@ -517,10 +521,10 @@ def decode(L):
     """Décode les informations sous la forme octets dans un QRcode
 
     Args:
-        L (_type_): GRcode à décoder
+        L (list): QRcode à décoder
 
     Returns:
-        _type_: données décodé sous la forme de liste d'octets (sous la forme de liste)
+        list: données décodé sous la forme de liste d'octets (sous la forme de liste)
     """
     verboten = cases_interdites(L) #on liste les emplacements interdit
     mask=0 #on prépare le masque qui à été utilisé
@@ -538,12 +542,12 @@ def reedsolomon(octets:list, lvl : int):
         lvl (int): niveau de correction
     """
     rs.init_tables(0x11d)
-    data = octetstoliste(octets)
+    data = octets.copy()
     n = len(data)
     ecc = rs.rs_encode_msg(data, n, lvl)
     L = []
     for i in range(len(ecc)):
-        L.append(int_to_bin(ecc[i]))
+        L += int_to_bin(ecc[i])
     return L
 
 def reedsolomon_decode(L:list, octets:list, lvl : int):
@@ -573,7 +577,7 @@ def int_to_bin(n:int):
     Returns:
         str: entier en binaire
     """
-    return format(n, '08b')
+    return [int(i) for i in format(n, '08b')]
 
 def str_to_bin(L:str):
     """Transforme une chaine de caractère en binaire
@@ -582,12 +586,12 @@ def str_to_bin(L:str):
         L (str): chaine de caractère
 
     Returns:
-        str: chaine de caractère en binaire
+        list: liste en binaire
     """
     res = ""
     for i in range(len(L)):
         res += format(ord(L[i]), '08b')
-    return res
+    return [int(i) for i in res]
 
 def encode_info(L:str, lvl:int, type:str):
     """Encode les informations dans un QRcode
@@ -645,9 +649,5 @@ if __name__ == "__main__":
     #print("Executing main")
     main()
 
-"""print(typeinfo("dsqf4gfqf"))
-print(typeinfo("dsqfgfqf"))
-print(typeinfo("5465765486"))
-print(typeinfo("0110011001100110"))
-print(typeinfo("漢字"))"""
-print(reedsolomon([[1,0,1,0,0,1,1,0]], 7))
+#print(reedsolomon([1,0,0,1,0,1,1,0], 7))
+print(encode_info("Hello", 7, "alphanumérique"))
