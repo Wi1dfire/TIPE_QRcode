@@ -5,9 +5,9 @@ import numpy as np
 
 """revoir recalibrage"""
 
-os.chdir('./OneDrive/cour/5demi/TIPE')
+os.chdir('./OneDrive/cour/5demi/TIPE/image_test_QRcode')
 QRcode = (mpimg.imread('Qr-2.png')).tolist()
-QRcode_multic = (mpimg.imread('./image de test QR code/QR code coca.jpg')).tolist()
+QRcode_multic = (mpimg.imread('QRcode_coca.jpg')).tolist()
 
 def distance(a,b):
     V = (np.array(a) - np.array(b))**2
