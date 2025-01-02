@@ -5,7 +5,7 @@ import numpy as np
 
 """revoir recalibrage"""
 
-os.chdir('./OneDrive/cour/5demi/TIPE/Code_github/image_test_QRcode')
+os.chdir('./image_test_QRcode')
 QRcode = (mpimg.imread('Qr-2.png')).tolist()
 QRcode_multic = (mpimg.imread('QRcode_coca.jpg')).tolist()
 
