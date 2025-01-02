@@ -13,6 +13,6 @@
 # A faire
 
 * Dans debut.py
-  * Placer les cases en arg des fct lecture et ecriture une fois les fonctions encode et decode suffisemment aboutit (voir terminé)
+  * Placer les cases en arg des fct `lecture` et `ecriture` une fois les fonctions `encode` et `decode` suffisemment aboutit (voir terminé)
 * Dans image_QRcode_to_liste.py
   * revoir recalibrage
