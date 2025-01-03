@@ -17,7 +17,6 @@
   * écrire la fct `reedsolomon_decode`
   * trouver les `emplacement des motif d'alignement` et la `taille` des QRcode en foonction des versions
   * recommenter l 537 --> 621
-  * manque de 3 bits lors d'un teste 'Hello World' de rs chercher l'erreur
 * Dans image_QRcode_to_liste.py
   * revoir `recalibrage`
 * Dans reed-solomon.py
