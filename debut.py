@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import random as rd
 import reedsolo as rs
 # 0 = noir et 1 = blanc
+temp = []
 
 def init(n:int):
     """Créé un un tableau (liste de liste) de taille n*n remplit de 0
@@ -593,7 +594,7 @@ def str_to_bin(L:str):
         res += format(ord(L[i]), '08b')
     return [int(i) for i in res]
 
-def encode_info(L:str, lvl:int, type:str):
+def encode_info(L:str, lvl:int, type:str, version:int):
     """Encode les informations dans un QRcode
 
     Args:
@@ -615,9 +616,9 @@ def encode_info(L:str, lvl:int, type:str):
     if type == "kanji":
         data = [1,0,0,0]
     donnees = str_to_bin(L)
-    data += int_to_bin(len(donnees)) + donnees + [0,0,0,0]
+    data += int_to_bin(len(donnees)//8) + donnees + [0,0,0,0]
     reed = reedsolomon(data, lvl)
-    data += reed 
+    data += reed
     return data
 
 def main():
@@ -628,10 +629,6 @@ def main():
     c = cases_interdites(L)
     #appli_mask(L, 101, c)
     K = []
-    Helloworld_rs = encode_info("Hello World", 7, "alphanumérique")
-    encode(L,Helloworld_rs, 100, None, None)
-    print(Helloworld_rs, len(Helloworld_rs)%8)
-    affiche_image(L)
     """
     for i in range(72):
         K.append([1,1,0,0,1,0,1,1])
@@ -647,11 +644,14 @@ def main():
     plt.imshow(L, cmap='rainbow', clim=(0,20))
     plt.show()
     """
+    Helloworld_rs = encode_info("Hello World", 7, "alphanumérique", None)
+    encode(L,Helloworld_rs,101,None,None)
+    affiche_image(L)
+    #print(len(reedsolomon([1,0,0,1,0,1,1,0], 7))%8)
+    #print(len(encode_info("Hello World", 7, "alphanumérique"))%8)
+    #print(len(str_to_bin("Hello World")))
 
 # print("Done importing")
 if __name__ == "__main__":
     #print("Executing main")
     main()
-
-#print(reedsolomon([1,0,0,1,0,1,1,0], 7))
-#print(encode_info("Hello", 7, "alphanumérique"))
