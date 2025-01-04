@@ -1,4 +1,5 @@
-from debut import *
+from main import *
+import structure as st
 import unittest
 
 # https://docs.python.org/3/library/unittest.html
@@ -6,10 +7,10 @@ import unittest
 class TestMyQrCode(unittest.TestCase):
 
     def test_upper(self):
-        L = Gen_QRcode(29,True)
+        L = st.Gen_QRcode(29,True)
         n=len(L)-1
-        alignement = alignment()
-        L = insert(L,alignement,(n-8,n-8))
+        alignement = st.alignment()
+        L = st.insert(L,alignement,(n-8,n-8))
         c = cases_interdites(L)
 
         # Test whatever you want using asserts
