@@ -12,12 +12,14 @@
 
 # Tâches à faire
 
-* Dans debut.py
+* Dans main.py
   * Placer les cases en arg des fct `lecture` et `ecriture` une fois les fonctions `encode` et `decode` suffisemment aboutit (voir terminé)
   * écrire la fct `reedsolomon_decode`
-  * trouver les `emplacement des motif d'alignement` et la `taille` des QRcode en foonction des versions
-  * recommenter l 537 --> 621
+  * recommenter
+  * 2 bit en plus dans un 'Hello World' dans la fonction `encode_info`
 * Dans image_QRcode_to_liste.py
   * revoir `recalibrage`
 * Dans reed-solomon.py
   * Tout
+* Dans structure.py
+  * trouver les `emplacement des motif d'alignement` et la `taille` des QRcode en foonction des versions
