@@ -2,7 +2,7 @@ import re
 import matplotlib.pyplot as plt
 import random as rd
 import reedsolo as rs
-import fonctionspassage as fp
+import fonctionsbase as fb
 import structure as st
 import mask
 # 0 = noir et 1 = blanc
@@ -134,23 +134,6 @@ def lecture(L:list):
         octet = []
     return Données
 
-def octetstoliste(L:list):
-    """transforme une liste d'octets (sous forme de liste) en une liste de bits
-    En place mais le return permet une utilisation plus facile.
-
-    Args:
-        L (list): liste d'octets à convertir
-
-    Returns:
-        list: liste des bits (octets mis bout à bout dans une liste)
-    """
-    Données = []
-    for i in range (len(L)):
-        octet = L[i].copy()
-        for j in range (len(octet)):
-            Données.append(octet[j])
-    return Données
-
 def ecriture(L:list, Données:list):
     """écrit une liste de données en binaire dans un QRcode
     En place mais le return permet une utilisation plus facile.
@@ -233,7 +216,7 @@ def encode(L, octets, mask, lvl, type):
     ###L = Gen_QRcode(len(octets)//2,True) #TROUVER UNE FORMULE POUR LA TAILLE (ça serait pas mal)
     verboten = cases_interdites(L) #on liste les emplacements interdit
     ecriture(L,octets) #on écrit les données
-    appli_mask(L, mask, verboten) #on applique le masque voulut
+    mask.appli(L, mask, verboten) #on applique le masque voulut
     mask = str(mask)
     for i in range(3): #on inscrit le masque utilisé
         L[8][2+i], L[-(2+i)][8] = int(mask[i]), int(mask[i])
@@ -251,7 +234,7 @@ def decode(L):
     mask=0 #on prépare le masque qui à été utilisé
     for i in range(3): # on cherche le masque utilisé
         mask += L[8][2+i] *(10**(2-i))
-    appli_mask(L, mask, verboten) #on réapplique le masque pour retrouver les données initiales
+    mask.appli(L, mask, verboten) #on réapplique le masque pour retrouver les données initiales
     données = lecture(L) # on lit les données du QRcode
     return données
 
@@ -307,9 +290,9 @@ def encode_info(L:str, lvl:int, type:str, version:int):
         data = [0,0,1,0]
     if type == "kanji":
         data = [1,0,0,0]
-    donnees = fp.str_to_bits(L)
-    data += fp.int_to_bits(len(donnees)//8) + donnees + [0,0,0,0]
-    data = fp.bitstooctet(data)
+    donnees = fb.str_to_bits(L)
+    data += fb.int_to_bits(len(donnees)//8) + donnees + [0,0,0,0]
+    data = fb.bitstooctet(data)
     reed = reedsolomon(data, lvl)
     data += reed
     return data
@@ -320,7 +303,7 @@ def main():
     alignement = st.alignment()
     L = st.insert(L,alignement,(n-8,n-8))
     c = cases_interdites(L)
-    #appli_mask(L, 101, c)
+    #appli(L, 101, c)
     K = []
     """
     for i in range(72):
@@ -342,7 +325,7 @@ def main():
     affiche_image(L)"""
     #print(len(reedsolomon([1,0,0,1,0,1,1,0], 7))%8)
     print(len(encode_info("Hello World", 7, "alphanumérique", None))%8)
-    #print(len(fp.str_to_bits("Hello World"))//8)
+    #print(len(fb.str_to_bits("Hello World"))//8)
 
 # print("Done importing")
 if __name__ == "__main__":

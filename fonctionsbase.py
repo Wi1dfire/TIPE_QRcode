@@ -1,3 +1,12 @@
+def retourne_octet(L:list):
+    """retourne un liste (en place). En place
+
+    Args:
+        L (list): liste à retourner 
+    """
+    for i in range (len(L)//2):
+        L[i],L[-1-i] = L[-1-i],L[i]
+
 def int_to_bits(n:int):
     """Transforme un entier en binaire
 
@@ -70,3 +79,20 @@ def strtolist(L:str):
         list: liste
     """
     return [i for i in L]
+
+def octetstoliste(L:list):
+    """transforme une liste d'octets (sous forme de liste) en une liste de bits
+    En place mais le return permet une utilisation plus facile.
+
+    Args:
+        L (list): liste d'octets à convertir
+
+    Returns:
+        list: liste des bits (octets mis bout à bout dans une liste)
+    """
+    Données = []
+    for i in range (len(L)):
+        octet = L[i].copy()
+        for j in range (len(octet)):
+            Données.append(octet[j])
+    return Données
