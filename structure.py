@@ -1,6 +1,6 @@
 import random as rd
 
-def init(n:int):
+def init(n:int) -> list:
     """Créé un un tableau (liste de liste) de taille n*n remplit de 0
 
     Args:
@@ -14,7 +14,7 @@ def init(n:int):
         L.append([0 for i in range (n)])
     return L
 
-def motif():
+def motif() -> list:
     """Créé un motif de positionnement de référence
 
     Returns:
@@ -31,7 +31,7 @@ def motif():
         L[i][7] = 1
     return L
 
-def alignment():
+def alignment() -> list:
     """Créé un motif d'allignement de référence
 
     Returns:
@@ -45,7 +45,7 @@ def alignment():
         L[i+1][1] = 1
     return L
 
-def rotation(L:list):
+def rotation(L:list) -> list:
     """effectue une rotation de -pi/2 d'une liste de liste carrée.
     En place mais le return permet une utilisation plus facile. 
 
@@ -63,7 +63,7 @@ def rotation(L:list):
             L[n-1-i][n-1-j], L[n-1-j][i] = L[n-1-j][i], L[n-1-i][n-1-j]
     return L
 
-def insert(L:list,patern:list,A:tuple):
+def insert(L:list,patern:list,A:tuple) -> list:
     """insert un paterne carré dans une plus grande liste de liste carré 
     dont le coins haut gauche se trouve aux coordonnées A dans L.
     En place mais le return permet une utilisation plus facile.
@@ -81,7 +81,7 @@ def insert(L:list,patern:list,A:tuple):
             L[A[0]+i][A[1]+j] = patern[i][j]
     return L
 
-def Gen_QRcode(n:int,o:bool):
+def Gen_QRcode(n:int,o:bool) -> list:
     """Génère un QRcode de taille n
 
     Args:
@@ -95,12 +95,12 @@ def Gen_QRcode(n:int,o:bool):
         return False
     L = init(n)
     paterne = motif()
-    insert(L,paterne,(0,0)) #HG
+    insert(L,paterne,(0,0)) #Haut Gauche
     rotation(paterne)
-    insert(L,paterne,(0,n-8)) #HD
+    insert(L,paterne,(0,n-8)) #Haut Droit
     rotation(paterne)
     rotation(paterne)
-    insert(L, paterne,(n-8,0)) #BG
+    insert(L, paterne,(n-8,0)) #Bas Gauche
     for i in range (n-15):
         if i % 2 != 0 :
             L[8+i][6] = 1
@@ -110,7 +110,7 @@ def Gen_QRcode(n:int,o:bool):
             rotation(L)
     return L
 
-def positionnement(L:list):
+def positionnement(L:list) -> bool:
     """Vérifie si le QRcode est bien orienté
 
     Args:
@@ -133,7 +133,7 @@ def positionnement(L:list):
         rotation(HD)
     return HG == paterne and HD == paterne and  BG == paterne
 
-def positionnement2(L:list):
+def positionnement2(L:list) -> bool:
     """Vérifie si le QRcode est bien orienté
 
     Args:

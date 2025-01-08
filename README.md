@@ -3,7 +3,7 @@
 * Programmation objets
 * Principes de programation : SOLID
 * Versioning via git et github --> ok
-* Typing python --> à revoir
+* Typing python --> ok
 * Specifier ses dependences requirements.txt (installation via `pip install -r requirements.txt`) --> ok
   * voir `pip freeze > requirements.txt`
 * Utilisation de `venv` pour garder ses dependences propres --> ok
@@ -15,7 +15,6 @@
 * Dans main.py
   * Placer les cases en arg des fct `lecture` et `ecriture` une fois les fonctions `encode` et `decode` suffisemment aboutit (voir terminé)
   * écrire la fct `reedsolomon_decode`
-  * recommenter
   * 2 bit en plus dans un 'Hello World' dans la fonction `encode_info`
 * Dans image_QRcode_to_liste.py
   * revoir `recalibrage`

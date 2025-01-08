@@ -7,7 +7,7 @@ import structure as st
 import mask
 # 0 = noir et 1 = blanc
 
-def affiche(L:list):
+def affiche(L:list) -> None:
     """Affiche un QRcode de manière convenable
 
     Args:
@@ -16,7 +16,7 @@ def affiche(L:list):
     for i in range (len(L)):
         print(L[i])
 
-def affiche_image(L):
+def affiche_image(L) -> None:
     """affiche le QRcode comment une image dans un plot
 
     Args:
@@ -25,7 +25,7 @@ def affiche_image(L):
     plt.imshow(L, cmap='gray', clim=(0,1))
     plt.show()
 
-def loc_alignment(L:list):
+def loc_alignment(L:list) -> list:
     Loc_centre = []
     ref = st.alignment()
     for i in range (len(L)-5):
@@ -39,7 +39,7 @@ def loc_alignment(L:list):
                 Loc_centre.append((i+3,j+3))
     return Loc_centre
 
-def cases_interdites(L:list):
+def cases_interdites(L:list) -> list:
     """Trouve les emplacements à on ne peut pas placer de bits/d'informations
 
     Args:
@@ -74,7 +74,7 @@ def cases_interdites(L:list):
             cases.append((n-11+j,i))
     return cases
 
-def lecture(L:list):
+def lecture(L:list) -> list:
     """lit les données dans le QRcode et les retournes dans une liste de liste (liste d'octets)
 
     Args:
@@ -134,7 +134,7 @@ def lecture(L:list):
         octet = []
     return Données
 
-def ecriture(L:list, Données:list):
+def ecriture(L:list, Données:list) -> list:
     """écrit une liste de données en binaire dans un QRcode
     En place mais le return permet une utilisation plus facile.
 
@@ -205,7 +205,7 @@ def ecriture(L:list, Données:list):
                         del Données[0]
     return L
 
-def encode(L, octets, mask, lvl, type):
+def encode(L, octets, mask, lvl, type) -> None:
     """Encode les informations sous la forme d'une list de bits dans un QRcode
 
     Args:
@@ -221,7 +221,7 @@ def encode(L, octets, mask, lvl, type):
     for i in range(3): #on inscrit le masque utilisé
         L[8][2+i], L[-(2+i)][8] = int(mask[i]), int(mask[i])
 
-def decode(L):
+def decode(L) -> list:
     """Décode les informations sous la forme octets dans un QRcode
 
     Args:
@@ -238,7 +238,7 @@ def decode(L):
     données = lecture(L) # on lit les données du QRcode
     return données
 
-def reedsolomon(bits:list, lvl : int):
+def reedsolomon(bits:list, lvl : int) -> list:
     """(GC) Encode les données avec le code correcteur de Reed-Solomon
 
     Args:
@@ -254,7 +254,7 @@ def reedsolomon(bits:list, lvl : int):
 def reedsolomon_decode(L:list, octets:list, lvl : int):
     pass
 
-def typeinfo(L:str):
+def typeinfo(L:str) -> str:
     """Retourne le type d'information
 
     Args:
@@ -269,7 +269,7 @@ def typeinfo(L:str):
         return "alphanumérique"
     return "kanji"
 
-def encode_info(L:str, lvl:int, type:str, version:int):
+def encode_info(L:str, lvl:int, type:str, version:int) -> list:
     """Encode les informations dans un QRcode
 
     Args:
@@ -280,8 +280,9 @@ def encode_info(L:str, lvl:int, type:str, version:int):
         data (list): données encodées pas rs
     """
     data = []
-    if type == None:
+    if type == None: #On identifie le type d'information
         type = typeinfo(L)
+    #On encode le type d'informations présente
     if type == "binaire":
         data = [0,1,0,0]
     if type == "numérique":
@@ -290,11 +291,11 @@ def encode_info(L:str, lvl:int, type:str, version:int):
         data = [0,0,1,0]
     if type == "kanji":
         data = [1,0,0,0]
-    donnees = fb.str_to_bits(L)
-    data += fb.int_to_bits(len(donnees)//8) + donnees + [0,0,0,0]
-    data = fb.bitstooctet(data)
-    reed = reedsolomon(data, lvl)
-    data += reed
+    donnees = fb.str_to_bits(L) #on convertit les données en bits avec la table Unicode
+    data += fb.int_to_bits(len(donnees)//8) + donnees + [0,0,0,0] #on constitue les données à encoder
+    data = fb.bitstooctet(data) #on convertit les données en octets
+    reed = reedsolomon(data, lvl) #on encode les données avec le code correcteur de Reed-Solomon
+    data += reed #on ajoute les données encodées par le code correcteur à la suite de celles déjà présentes
     return data
 
 def main():

@@ -1,4 +1,4 @@
-def retourne_octet(L:list):
+def retourne_octet(L:list) -> None:
     """retourne un liste (en place). En place
 
     Args:
@@ -7,7 +7,7 @@ def retourne_octet(L:list):
     for i in range (len(L)//2):
         L[i],L[-1-i] = L[-1-i],L[i]
 
-def int_to_bits(n:int):
+def int_to_bits(n:int) -> list:
     """Transforme un entier en binaire
 
     Args:
@@ -18,8 +18,8 @@ def int_to_bits(n:int):
     """
     return [int(i) for i in format(n, '08b')]
 
-def str_to_bits(L:str):
-    """Transforme une chaine de caractère en binaire
+def str_to_bits(L:str) -> list:
+    """Transforme une chaine de caractère en binaire avec la table Unicode
 
     Args:
         L (str): chaine de caractère
@@ -32,7 +32,7 @@ def str_to_bits(L:str):
         res += format(ord(L[i]), '08b')
     return [int(i) for i in res]
 
-def bitstooctet(L:list):
+def bitstooctet(L:list) -> list:
     """Transforme une liste de bits en octet
 
     Args:
@@ -47,7 +47,7 @@ def bitstooctet(L:list):
         octet.append(byte)
     return octet
 
-def inttooctet(n:int):
+def inttooctet(n:int) -> list:
     """Transforme un entier en octet
 
     Args:
@@ -58,7 +58,7 @@ def inttooctet(n:int):
     """
     return bitstooctet(int_to_bits(n))
 
-def strtooctet(L:str):
+def strtooctet(L:str) -> list:
     """Transforme une chaine de caractère en octet
 
     Args:
@@ -69,7 +69,7 @@ def strtooctet(L:str):
     """
     return bitstooctet(str_to_bits(L))
 
-def strtolist(L:str):
+def strtolist(L:str) -> list:
     """Transforme une chaine de caractère en liste
 
     Args:
@@ -80,7 +80,7 @@ def strtolist(L:str):
     """
     return [i for i in L]
 
-def octetstoliste(L:list):
+def octetstoliste(L:list) -> list:
     """transforme une liste d'octets (sous forme de liste) en une liste de bits
     En place mais le return permet une utilisation plus facile.
 

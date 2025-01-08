@@ -1,100 +1,100 @@
-def mask_000(L, interdit):
+def mask_000(L, interdit) -> None:
     """applique le masque 000 au QRcode
 
     Args:
-        L (_type_): QRcode
-        interdit (_type_): liste des emplacements interdits
+        L (list): QRcode
+        interdit (list): liste des emplacements interdits
     """
     for i in range(len(L)):
         for j in range(len(L)):
             if (i,j) not in interdit and j%3 == 0 :
                 L[i][j] = (L[i][j]+1)%2
 
-def mask_001(L, interdit):
+def mask_001(L, interdit) -> None:
     """applique le masque 001 au QRcode
 
     Args:
-        L (_type_): QRcode
-        interdit (_type_): liste des emplacements interdits
+        L (list): QRcode
+        interdit (list): liste des emplacements interdits
     """
     for i in range(len(L)):
         for j in range(len(L)):
             if (i,j) not in interdit and (i+j)%3 == 0 :
                 L[i][j] = (L[i][j]+1)%2
 
-def mask_010(L, interdit):
+def mask_010(L, interdit) -> None:
     """applique le masque 010 au QRcode
 
     Args:
-        L (_type_): QRcode
-        interdit (_type_): liste des emplacements interdits
+        L (list): QRcode
+        interdit (list): liste des emplacements interdits
     """
     for i in range(len(L)):
         for j in range(len(L)):
             if (i,j) not in interdit and (i+j)%2 == 0 :
                 L[i][j] = (L[i][j]+1)%2
 
-def mask_011(L, interdit):
+def mask_011(L, interdit) -> None:
     """applique le masque 011 au QRcode
 
     Args:
-        L (_type_): QRcode
-        interdit (_type_): liste des emplacements interdits
+        L (list): QRcode
+        interdit (list): liste des emplacements interdits
     """
     for i in range(len(L)):
         for j in range(len(L)):
             if (i,j) not in interdit and i%2 == 0 :
                 L[i][j] = (L[i][j]+1)%2
 
-def mask_100(L, interdit):
+def mask_100(L, interdit) -> None:
     """applique le masque 100 au QRcode
 
     Args:
-        L (_type_): QRcode
-        interdit (_type_): liste des emplacements interdits
+        L (list): QRcode
+        interdit (list): liste des emplacements interdits
     """
     for i in range(len(L)):
         for j in range(len(L)):
             if (i,j) not in interdit and ((i*j)%3+i*j)%2 == 0 :
                 L[i][j] = (L[i][j]+1)%2
 
-def mask_101(L, interdit):
+def mask_101(L, interdit) -> None:
     """applique le masque 101 au QRcode
 
     Args:
-        L (_type_): QRcode
-        interdit (_type_): liste des emplacements interdits
+        L (list): QRcode
+        interdit (list): liste des emplacements interdits
     """
     for i in range(len(L)):
         for j in range(len(L)):
             if (i,j) not in interdit and ((i*j)%3+i+j)%2 == 0 :
                 L[i][j] = (L[i][j] + 1) % 2
 
-def mask_110(L, interdit):
+def mask_110(L, interdit) -> None:
     """applique le masque 110 au QRcode
 
     Args:
-        L (_type_): QRcode
-        interdit (_type_): liste des emplacements interdits
+        L (list): QRcode
+        interdit (list): liste des emplacements interdits
     """
     for i in range(len(L)):
         for j in range(len(L)):
             if (i,j) not in interdit and (i/2+j/3)%2 == 0 :
                 L[i][j] = (L[i][j]+1)%2
 
-def mask_111(L, interdit):
+def mask_111(L, interdit) -> None:
     """applique le masque 111 au QRcode
 
     Args:
-        L (_type_): QRcode
-        interdit (_type_): liste des emplacements interdits
+        L (list): QRcode
+        interdit (list): liste des emplacements interdits
     """
     for i in range(len(L)):
         for j in range(len(L)):
             if (i,j) not in interdit and (i*j)%3+(i*j)%2 == 0 :
                 L[i][j] = (L[i][j]+1)%2
 
-def appli(L, mask, interdit):
+def appli(L, mask, interdit) -> None:
     """applique le masque voulut au QRcode
 
     Args:

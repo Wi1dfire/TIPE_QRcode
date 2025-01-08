@@ -15,6 +15,15 @@ def projecteur(a):
     pass
 
 def coins_QRcode(image):
+    """Repère les coins haut gauche, haut droit et bas gauche du QRcode (premier pixel blanc)
+    Et retourne les coordonnées sous forme de tuple
+
+    Args:
+        image (list): image
+
+    Returns:
+        tuples: coordonnées des coins haut gauche, haut droit et bas gauche
+    """
     HG, HD, BG = [(0,0),True], [(0,0),True], [(0,0),True]
     noir = [0.0,0.0,0.0,1.0] 
     n, m = len(image), len(image[0])
@@ -29,6 +38,14 @@ def coins_QRcode(image):
     return HG[0], HD[0], BG[0],
 
 def retire_silence(image):
+    """retire la zonne de silence autour du QRcode
+
+    Args:
+        image (list): image
+
+    Returns:
+        list: image sans la zone de silence
+    """
     HG, HD, BG = coins_QRcode(image)
     image = image[HG[0]:BG[0]+1]
     n = len(image)
@@ -38,6 +55,14 @@ def retire_silence(image):
     return image
 
 def simplifie(image):
+    """remplace les pixels noirs par des 0 et les pixels blancs par des 1
+
+    Args:
+        image (list): image
+
+    Returns:
+        list : image simplifiée pour utilisation des fonctions de lecture de données de QRcode
+    """
     n, m = len(image), len(image[0])
     blanc, noir = [1.0,1.0,1.0], [0.0,0.0,0.0]
     L = []
@@ -52,11 +77,27 @@ def simplifie(image):
     return L
 
 def calibre(image):
+    """Trouve le nombre de pixels d'un carré du QRcode
+
+    Args:
+        image (list): image simplifiée et sans zone de silence
+
+    Returns:
+        int : nombre de pixels d'un carré du QRcode
+    """
     for i in range(len(image)):
         if image[i][0] == 1 :
             return int(i/7)
 
 def recalibrage(image):
+    """recalibre l'image pour que chaques élément corresponde à un carré du QRcode
+
+    Args:
+        image (list): image simplifiée et sans zone de silence
+
+    Returns:
+        list : image simplifiée et sans zone de silence recalibrée
+    """
     cal = calibre(image)
     L = []
     for i in range (len(image)//cal+1):
@@ -66,10 +107,15 @@ def recalibrage(image):
         L.append(ligne)
     return L
 
-"""QRcode = retire_silence(QRcode)
-QRcode = simplifie(QRcode)
-QRcode = recalibrage(QRcode)
-plt.imshow(QRcode, cmap='gray', clim=(0,1))
-plt.show()"""
-blanc, noir = [1.0,1.0,1.0], [0.0,0.0,0.0]
-"""print(distance(blanc, noir))"""
+
+def main():
+    """QRcode = retire_silence(QRcode)
+    QRcode = simplifie(QRcode)
+    QRcode = recalibrage(QRcode)
+    plt.imshow(QRcode, cmap='gray', clim=(0,1))
+    plt.show()"""
+    blanc, noir = [1.0,1.0,1.0], [0.0,0.0,0.0]
+    """print(distance(blanc, noir))"""
+
+if __name__ == "__main__":
+    main()
