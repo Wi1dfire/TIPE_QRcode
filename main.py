@@ -1,6 +1,5 @@
 import re
 import matplotlib.pyplot as plt
-import random as rd
 import reedsolo as rs
 import fonctionsbase as fb
 import structure as st
@@ -205,7 +204,7 @@ def ecriture(L:list, Données:list) -> list:
                         del Données[0]
     return L
 
-def encode(L, octets, mask, lvl, type) -> None:
+def encode(L, octets, masque, lvl, type) -> None:
     """Encode les informations sous la forme d'une list de bits dans un QRcode
 
     Args:
@@ -216,8 +215,8 @@ def encode(L, octets, mask, lvl, type) -> None:
     ###L = Gen_QRcode(len(octets)//2,True) #TROUVER UNE FORMULE POUR LA TAILLE (ça serait pas mal)
     verboten = cases_interdites(L) #on liste les emplacements interdit
     ecriture(L,octets) #on écrit les données
-    mask.appli(L, mask, verboten) #on applique le masque voulut
-    mask = str(mask)
+    mask.appli(L, masque, verboten) #on applique le masque voulut
+    masque = str(masque)
     for i in range(3): #on inscrit le masque utilisé
         L[8][2+i], L[-(2+i)][8] = int(mask[i]), int(mask[i])
 
