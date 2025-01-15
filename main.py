@@ -62,9 +62,10 @@ def encode_info(L:str, lvl:int, type:str, version:int) -> list:
         data = [1,0,0,0]
     donnees = fb.str_to_bits(L) #on convertit les données en bits avec la table Unicode
     data += fb.int_to_bits(len(donnees)//8) + donnees + [0,0,0,0] #on constitue les données à encoder
-    data = fb.bitstooctet(data) #on convertit les données en octets
+    data = fb.bitstolist(data) #on convertit les données en octets
     reed = reedsolomon(data, lvl) #on encode les données avec le code correcteur de Reed-Solomon
     data += reed #on ajoute les données encodées par le code correcteur à la suite de celles déjà présentes
+    data = fb.listtobits(data) #on convertit les données en bits
     return data
 
 def main():
