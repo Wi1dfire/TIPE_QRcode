@@ -16,9 +16,10 @@
 * Généralement
   * placer des kwargs dans les fonctions
 * Dans main.py
-  * Placer les cases en arg des fct `lecture` et `ecriture` une fois les fonctions `encode` et `decode` suffisemment aboutit (voir terminé)
   * écrire la fct `reedsolomon_decode`
   * 2 bit en plus dans un 'Hello World' dans la fonction `encode_info`
+* Dans fonctionsutile.py
+  * Placer les cases en arg des fct `lecture` et `ecriture` une fois les fonctions `encode` et `decode` suffisemment aboutit (voir terminé)
 * Dans image_QRcode_to_liste.py
   * revoir `recalibrage`
 * Dans structure.py
