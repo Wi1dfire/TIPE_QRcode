@@ -32,14 +32,14 @@ def str_to_bits(L:str) -> list:
         res += format(ord(L[i]), '08b')
     return [int(i) for i in res]
 
-def bitstooctet(L:list) -> list:
-    """Transforme une liste de bits en octet
+def bitstolist(L:list) -> list:
+    """Transforme une liste de bits en liste d'entiers
 
     Args:
         L (list): liste de bits
 
     Returns:
-        list: liste d'octets
+        list: liste d'entiers
     """
     octet = []
     for i in range(0, len(L), 8):
@@ -47,38 +47,16 @@ def bitstooctet(L:list) -> list:
         octet.append(byte)
     return octet
 
-def inttooctet(n:int) -> list:
-    """Transforme un entier en octet
-
-    Args:
-        n (int): entier
-
-    Returns:
-        list: octet
-    """
-    return bitstooctet(int_to_bits(n))
-
-def strtooctet(L:str) -> list:
-    """Transforme une chaine de caractère en octet
-
-    Args:
-        L (str): chaine de caractère
-
-    Returns:
-        list: liste d'octets
-    """
-    return bitstooctet(str_to_bits(L))
-
 def strtolist(L:str) -> list:
-    """Transforme une chaine de caractère en liste
+    """Transforme une chaine de caractère en liste d'entier
 
     Args:
         L (str): chaine de caractère
 
     Returns:
-        list: liste
+        list: liste d'entier
     """
-    return [i for i in L]
+    return bitstolist(str_to_bits(L))
 
 def octetstoliste(L:list) -> list:
     """transforme une liste d'octets (sous forme de liste) en une liste de bits
@@ -95,4 +73,18 @@ def octetstoliste(L:list) -> list:
         octet = L[i].copy()
         for j in range (len(octet)):
             Données.append(octet[j])
+    return Données
+
+def listtobits(L:list) -> list:
+    """Transforme une liste d'octets en liste de bits
+
+    Args:
+        L (list): liste d'octets
+
+    Returns:
+        list: liste de bits
+    """
+    Données = []
+    for i in range (len(L)):
+        Données += int_to_bits(L[i])
     return Données
