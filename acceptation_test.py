@@ -1,4 +1,5 @@
 from main import *
+import fonctionsutile as fu
 import structure as st
 import unittest
 
@@ -11,7 +12,7 @@ class TestMyQrCode(unittest.TestCase):
         n=len(L)-1
         alignement = st.alignment()
         L = st.insert(L,alignement,(n-8,n-8))
-        c = cases_interdites(L)
+        c = fu.cases_interdites(L)
 
         # Test whatever you want using asserts
         self.assertTrue(c)
