@@ -1,4 +1,5 @@
 import random as rd
+import fonctionsutiles as fu
 
 def init(n:int) -> list:
     """Créé un un tableau (liste de liste) de taille n*n remplit de 0
@@ -45,24 +46,6 @@ def alignment() -> list:
         L[i+1][1] = 1
     return L
 
-def rotation(L:list) -> list:
-    """effectue une rotation de -pi/2 d'une liste de liste carrée.
-    En place mais le return permet une utilisation plus facile. 
-
-    Args:
-        L (list): liste qu'il faut faire tourner 
-    
-    Returns :
-        list : liste tourné de -pi/2
-    """
-    n = len(L)
-    for i in range (n//2):
-        for j in range(i,n-1-i):
-            L[i][j],L[j][n-1-i]=L[j][n-1-i],L[i][j]
-            L[n-1-j][i], L[i][j] = L[i][j], L[n-1-j][i]
-            L[n-1-i][n-1-j], L[n-1-j][i] = L[n-1-j][i], L[n-1-i][n-1-j]
-    return L
-
 def insert(L:list,patern:list,A:tuple) -> list:
     """insert un paterne carré dans une plus grande liste de liste carré 
     dont le coins haut gauche se trouve aux coordonnées A dans L.
@@ -96,10 +79,10 @@ def Gen_QRcode(n:int,o:bool) -> list:
     L = init(n)
     paterne = motif()
     insert(L,paterne,(0,0)) #Haut Gauche
-    rotation(paterne)
+    fu.rotation(paterne)
     insert(L,paterne,(0,n-8)) #Haut Droit
-    rotation(paterne)
-    rotation(paterne)
+    fu.rotation(paterne)
+    fu.rotation(paterne)
     insert(L, paterne,(n-8,0)) #Bas Gauche
     for i in range (n-15):
         if i % 2 != 0 :
@@ -107,7 +90,7 @@ def Gen_QRcode(n:int,o:bool) -> list:
             L[6][8+i] = 1
     if not o :
         for i in range(rd.randint(1,3)):
-            rotation(L)
+            fu.rotation(L)
     return L
 
 def positionnement(L:list) -> bool:
@@ -128,9 +111,9 @@ def positionnement(L:list) -> bool:
         HG.append(L[i][:8])
         BG.append(L[n-8+i][:8])
         HD.append(L[i][n-8:])
-    rotation(BG)
+    fu.rotation(BG)
     for i in range(3):
-        rotation(HD)
+        fu.rotation(HD)
     return HG == paterne and HD == paterne and  BG == paterne
 
 def positionnement2(L:list) -> bool:

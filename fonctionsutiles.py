@@ -2,6 +2,24 @@ import structure as st
 import mask
 import matplotlib.pyplot as plt
 
+def rotation(L:list) -> list:
+    """effectue une rotation de -pi/2 d'une liste de liste carrée.
+    En place mais le return permet une utilisation plus facile. 
+
+    Args:
+        L (list): liste qu'il faut faire tourner 
+    
+    Returns :
+        list : liste tourné de -pi/2
+    """
+    n = len(L)
+    for i in range (n//2):
+        for j in range(i,n-1-i):
+            L[i][j],L[j][n-1-i]=L[j][n-1-i],L[i][j]
+            L[n-1-j][i], L[i][j] = L[i][j], L[n-1-j][i]
+            L[n-1-i][n-1-j], L[n-1-j][i] = L[n-1-j][i], L[n-1-i][n-1-j]
+    return L
+
 def affiche(L:list) -> None:
     """Affiche un QRcode de manière convenable
 
@@ -200,13 +218,13 @@ def ecriture(L:list, Données:list) -> list:
                         del Données[0]
     return L
 
-def encode(L, octets, masque, lvl, type) -> None:
+def encode(L:list, octets:list, masque, lvl:int, type:str) -> None:
     """Encode les informations sous la forme d'une list de bits dans un QRcode
 
     Args:
         L (list): QRcode
         octets (list): informations à encoder dans le QRcode
-        mask (int): masque voulut
+        masque (int): masque voulut
     """
     ###L = Gen_QRcode(len(octets)//2,True) #TROUVER UNE FORMULE POUR LA TAILLE (ça serait pas mal)
     verboten = cases_interdites(L) #on liste les emplacements interdit
@@ -214,9 +232,9 @@ def encode(L, octets, masque, lvl, type) -> None:
     mask.appli(L, masque, verboten) #on applique le masque voulut
     masque = str(masque)
     for i in range(3): #on inscrit le masque utilisé
-        L[8][2+i], L[-(2+i)][8] = int(mask[i]), int(mask[i])
+        L[8][2+i], L[-(2+i)][8] = int(masque[i]), int(masque[i])
 
-def decode(L) -> list:
+def decode(L:list) -> list:
     """Décode les informations sous la forme octets dans un QRcode
 
     Args:
