@@ -122,7 +122,6 @@ def appli(L, mask, interdit) -> None:
     if mask == 111:
         mask_111(L, interdit)
 
-
 def choix_mask(L) -> int:
     """choisit le masque optimal pour le QRcode
 
