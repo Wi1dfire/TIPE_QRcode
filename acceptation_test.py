@@ -1,5 +1,5 @@
 from main import *
-import fonctionsutile as fu
+import fonctionsutiles as fu
 import structure as st
 import unittest
 

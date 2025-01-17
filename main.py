@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import reedsolo as rs
 import fonctionsbase as fb
 import structure as st
-import fonctionsutile as fu
+import fonctionsutiles as fu
 import mask as mk
 # 0 = noir et 1 = blanc
 
