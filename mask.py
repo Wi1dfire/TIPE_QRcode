@@ -1,3 +1,6 @@
+import fonctionsutiles as fu
+import evaluation as eval
+
 def mask_000(L, interdit) -> None:
     """applique le masque 000 au QRcode
 
@@ -118,3 +121,22 @@ def appli(L, mask, interdit) -> None:
         mask_110(L, interdit)
     if mask == 111:
         mask_111(L, interdit)
+
+
+def choix_mask(L) -> int:
+    """choisit le masque optimal pour le QRcode
+
+    Args:
+        L (list): QRcode
+        interdit (list): liste des cases interdites
+
+    Returns:
+        int: masque optimal
+    """
+    c = fu.cases_interdites(L)
+    score, mask = [], [0,1,10,11,100,101,110,111]
+    for i in mask:
+        test = L.copy()
+        appli(test, i, c)
+        score.append(eval.evaluer(test))
+    return appli(L, score.index(min(score)), c)
