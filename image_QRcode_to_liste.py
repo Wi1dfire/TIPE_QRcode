@@ -1,12 +1,6 @@
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 import os
 import numpy as np
 import fonctionsutiles as fu
-
-os.chdir('./image_test_QRcode')
-QRcode = (mpimg.imread('Qr-2.png')).tolist()
-QRcode_multic = (mpimg.imread('QRcode_coca.jpg')).tolist()
 
 def distance(a,b):
     V = (np.array(a) - np.array(b))**2
@@ -110,9 +104,12 @@ def recalibrage(image):
 
 
 def main():
-    """QRcode = retire_silence(QRcode)
+    """os.chdir('./image_test_QRcode')
+    QRcode = (mpimg.imread('Qr-2.png')).tolist()
+    #QRcode_multic = (mpimg.imread('QRcode_coca.jpg')).tolist()
+    QRcode = retire_silence(QRcode)
     QRcode = simplifie(QRcode)
-    QRcode = recalibrage(QRcode))
+    QRcode = recalibrage(QRcode)
     fu.affiche_image(QRcode)"""
     blanc, noir = [1.0,1.0,1.0], [0.0,0.0,0.0]
     """print(distance(blanc, noir))"""
