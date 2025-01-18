@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import fonctionsutiles as fu
+import matplotlib.image as mpimg
 
 def distance(a,b):
     V = (np.array(a) - np.array(b))**2
@@ -58,8 +59,9 @@ def simplifie(image):
     Returns:
         list : image simplifiée pour utilisation des fonctions de lecture de données de QRcode
     """
-    n, m = len(image), len(image[0])
+    image = retire_silence(image)
     blanc, noir = [1.0,1.0,1.0], [0.0,0.0,0.0]
+    n, m = len(image), len(image[0])
     L = []
     for i in range (n):
         ligne = []
@@ -93,6 +95,8 @@ def recalibrage(image):
     Returns:
         list : image simplifiée et sans zone de silence recalibrée
     """
+    if type(image[0][0]) != int:
+        image = simplifie(image)
     cal = calibre(image)
     L = []
     for i in range (len(image)//cal+1):
@@ -104,13 +108,10 @@ def recalibrage(image):
 
 
 def main():
-    """os.chdir('./image_test_QRcode')
+    os.chdir('./image_test_QRcode')
     QRcode = (mpimg.imread('Qr-2.png')).tolist()
-    #QRcode_multic = (mpimg.imread('QRcode_coca.jpg')).tolist()
-    QRcode = retire_silence(QRcode)
-    QRcode = simplifie(QRcode)
     QRcode = recalibrage(QRcode)
-    fu.affiche_image(QRcode)"""
+    fu.affiche_image(QRcode)
     blanc, noir = [1.0,1.0,1.0], [0.0,0.0,0.0]
     """print(distance(blanc, noir))"""
 
