@@ -54,6 +54,14 @@ def affiche_image(L) -> None:
     plt.show()
 
 def loc_alignment(L:list) -> list:
+    """localise les centres des motifs d'alignement dans un QRcode
+
+    Args:
+        L (list): QRcode dans lequel on cherche les motifs d'alignement
+
+    Returns:
+        list: liste des centres des motifs d'alignement
+    """
     Loc_centre = []
     ref = st.alignment()
     for i in range (len(L)-5):
