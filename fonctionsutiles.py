@@ -20,6 +20,21 @@ def rotation(L:list) -> list:
             L[n-1-i][n-1-j], L[n-1-j][i] = L[n-1-j][i], L[n-1-i][n-1-j]
     return L
 
+def negatif(L:list) -> list:
+    """Effectue un négatif d'une liste de liste carrée.
+    En place mais le return permet une utilisation plus facile.
+
+    Args:
+        L (list): liste qu'il faut négativer
+
+    Returns:
+        list: liste négativée
+    """
+    for i in range (len(L)):
+        for j in range (len(L)):
+            L[i][j] = 1 - L[i][j]
+    return L
+
 def affiche(L:list) -> None:
     """Affiche un QRcode de manière convenable
 
