@@ -15,14 +15,16 @@
 
 * Généralement
   * placer des kwargs dans les fonctions
-* Dans main.py
+* Dans `main.py`
   * écrire la fct `reedsolomon_decode`
 * Dans fonctionsutile.py
   * Placer les cases en arg des fct `lecture` et `ecriture` une fois les fonctions `encode` et `decode` suffisemment aboutit (voir terminé)
-* Dans image_QRcode_to_liste.py
+* Dans `image_QRcode_to_liste.py`
   * revoir `recalibrage`
     * ok pour le momment mais potentiels modifications necessaire j : calibrer sur les motifs de calibrage et pas de placement
-* Dans structure.py
+* Dans `structure.py`
   * trouver les `emplacement des motif d'alignement` et la `taille` des QRcode en foonction des versions
-* Dans reed-solomon.py
+* Dans `loisempiriques.py`
+  * trouver toutes les lois à déterminer de façon empirique sur les versions
+* Dans `reed-solomon.py`
   * Tout
