@@ -21,6 +21,7 @@
   * Placer les cases en arg des fct `lecture` et `ecriture` une fois les fonctions `encode` et `decode` suffisemment aboutit (voir terminé)
 * Dans image_QRcode_to_liste.py
   * revoir `recalibrage`
+    * ok pour le momment mais potentiels modifications necessaire j : calibrer sur les motifs de calibrage et pas de placement
 * Dans structure.py
   * trouver les `emplacement des motif d'alignement` et la `taille` des QRcode en foonction des versions
 * Dans reed-solomon.py
