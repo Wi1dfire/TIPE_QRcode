@@ -23,8 +23,8 @@
   * revoir `recalibrage`
     * ok pour le momment mais potentiels modifications necessaire j : calibrer sur les motifs de calibrage et pas de placement
 * Dans `structure.py`
-  * trouver les `emplacement des motif d'alignement` et la `taille` des QRcode en foonction des versions
+  * appliquer les informations contenue dans `loisempiriques.csv`
 * Dans `loisempiriques.py`
-  * trouver toutes les lois à déterminer de façon empirique sur les versions
+  * ok
 * Dans `reed-solomon.py`
   * Tout
