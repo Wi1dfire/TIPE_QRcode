@@ -5,32 +5,32 @@ import matplotlib.image as mpimg
 import os
 import csv
 
-os.chdir('./image_test_QRcode/empirique/QRcode')
+os.chdir('./image_test_QRcode/empirique')
 
 def base_de_Qrcode():
-    for i in range(40):
-        qrcode = qr.QRCode( version=i, error_correction=qr.constants.ERROR_CORRECT_L, box_size=10, border=0)
+    os.chdir('./QRcode')
+    for i in range(1,41):
+        qrcode = qr.QRCode( version=i, error_correction=qr.constants.ERROR_CORRECT_L, box_size=1, border=0)
         img = qrcode.make_image(fill='black', back_color='white')
         img.save("qrcodeV"+str(i)+".png")
 
-def alignements_empiriques():
-    data = [["Version","liste des centres d'alignements"]]
-    for i in range(40):
-        img = mpimg.imread("qrcodeV"+str(i)+".png").tolist()
-        img = iQTL.recalibrage(img)
-        data.append([i, fu.loc_alignment(img)])
-    with open('alignements.csv', 'w', newline='') as file:
+def alignements_empiriques(img:list)->list:
+    return fu.loc_alignment(img)
+
+def tocsv(data:list)->None:
+    with open('loisempiriques.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(data)
 
 def main():
-    qrcode = qr.QRCode( version=1, error_correction=qr.constants.ERROR_CORRECT_L, box_size=1, border=0)
-    img = qrcode.make_image(fill='black', back_color='white')
-    img.save("qrcodeV"+str(1)+".png")
-    image = mpimg.imread("qrcodeV"+str(1)+".png").tolist()
-    image = iQTL.recalibrage(image)
-    fu.affiche_image(image)
-    fu.affiche(image)
+    if len(os.listdir("./QRcode")) != 40:
+        base_de_Qrcode()
+    data = [['versions','alignements','taille']]
+    for i in range(1,41):
+        img = mpimg.imread("./QRcode/qrcodeV"+str(i)+".png").tolist()
+        img = iQTL.recalibrage(img)
+        data.append([i,alignements_empiriques(img),len(img)])
+    tocsv(data)
 
 if __name__ == "__main__":
     main()
