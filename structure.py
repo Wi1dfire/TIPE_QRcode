@@ -54,7 +54,7 @@ def insert(L:list,patern:list,A:tuple) -> list:
     Args:
         L (list): liste dans laquelle insérer le paterne
         patern (list): paterne à insérer
-        A (tuple): emplacement du du coins haut droit du patern à inséré dans la liste
+        A (tuple): emplacement du du coins haut gauche du patern à inséré dans la liste
 
     Returns:
         list: la liste avec le patern inséré
@@ -64,7 +64,7 @@ def insert(L:list,patern:list,A:tuple) -> list:
             L[A[0]+i][A[1]+j] = patern[i][j]
     return L
 
-def Gen_QRcode(n:int,o:bool) -> list:
+def Gen_QRcode(n:int) -> list:
     """Génère un QRcode de taille n
 
     Args:
@@ -74,8 +74,7 @@ def Gen_QRcode(n:int,o:bool) -> list:
     Returns:
         list: QRcode généré
     """
-    if n < 14 : 
-        return False
+    assert 177>=n>=21
     L = init(n)
     paterne = motif()
     insert(L,paterne,(0,0)) #Haut Gauche
@@ -88,9 +87,6 @@ def Gen_QRcode(n:int,o:bool) -> list:
         if i % 2 != 0 :
             L[8+i][6] = 1
             L[6][8+i] = 1
-    if not o :
-        for i in range(rd.randint(1,3)):
-            fu.rotation(L)
     return L
 
 def positionnement(L:list) -> bool:
