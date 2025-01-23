@@ -19,7 +19,7 @@ def alignements_empiriques(img:list)->list:
 
 def tocsv(data:list)->None:
     with open('loisempiriques.csv', 'w', newline='') as file:
-        writer = csv.writer(file)
+        writer = csv.writer(file,delimiter=';')
         writer.writerows(data)
 
 def main():
