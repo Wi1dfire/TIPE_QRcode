@@ -13,7 +13,8 @@ def utilisable(data:list)->list:
     return D
 
 def loc_alignements(v:int)->list:
-    os.chdir("./image_test_QRcode/empirique")
+    if os.getcwd() != "E:\Repos\TIPE_QRcode\image_test_QRcode\empirique":
+        os.chdir("./image_test_QRcode/empirique")
     # Ouvrir le fichier CSV et le convertir en liste
     with open('loisempiriques.csv', newline='') as csvfile:
         csvreader = csv.reader(csvfile, delimiter=';')
@@ -21,7 +22,8 @@ def loc_alignements(v:int)->list:
     data_list = utilisable(data_list[v][1])
     return  data_list
 
-def construit(v:int)->list:
+def construit(L:list)->list:
+    v = version(L)
     QRcode = st.Gen_QRcode(21+4*(v-1))
     loc = loc_alignements(v)
     motif = st.alignment()
@@ -29,9 +31,20 @@ def construit(v:int)->list:
         st.insert(QRcode,motif,(loc[i][0]-2,loc[i][1]-2))
     return QRcode
 
+def version(L:list)->int:
+    n = len(L)
+    os.chdir("./image_test_QRcode/empirique")
+    # Ouvrir le fichier CSV et le convertir en liste
+    with open('loisempiriques.csv', newline='') as csvfile:
+        csvreader = csv.reader(csvfile, delimiter=';')
+        data_list = list(csvreader)
+    for i in range(1,41):
+        if n <= int(data_list[i][3]):
+            return i
+
+
 def main():
-    Q = construit(37)
-    fu.affiche_image(Q)
+    pass
 
 if __name__ == "__main__":
     main()
