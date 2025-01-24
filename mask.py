@@ -1,5 +1,7 @@
 import fonctionsutiles as fu
 import evaluation as eval
+import copy
+import fonctionsbase as fb
 
 def mask_000(L, interdit) -> None:
     """applique le masque 000 au QRcode
@@ -105,24 +107,36 @@ def appli(L, mask, interdit) -> None:
         mask (int): masque souhaité
         interdit (list): liste des cases interdites à donner en argument à la fonction masque
     """
+    masque = ""
     if mask == 0:
         mask_000(L, interdit)
-    if mask == 1:
+        masque = "000"
+    elif mask == 1:
         mask_001(L, interdit)
-    if mask == 10:
+        masque = "001"
+    elif mask == 10:
         mask_010(L, interdit)
-    if mask == 11:
+        masque = "010"
+    elif mask == 11:
         mask_011(L, interdit)
-    if mask == 100:
+        masque = "011"
+    elif mask == 100:
         mask_100(L, interdit)
-    if mask == 101:
+        masque = "100"
+    elif mask == 101:
         mask_101(L, interdit)
-    if mask == 110:
+        masque = "101"
+    elif mask == 110:
         mask_110(L, interdit)
-    if mask == 111:
+        masque = "110"
+    elif mask == 111:
         mask_111(L, interdit)
+        masque = "111"
+    masque = fb.strtolist(masque)
+    for i in range(3): #on inscrit le masque utilisé
+        L[8][2+i], L[-(2+i)][8] = int(masque[i]), int(masque[i])
 
-def choix_mask(L) -> int:
+def choix_mask(L,c) -> int:
     """choisit le masque optimal pour le QRcode
 
     Args:
@@ -132,10 +146,19 @@ def choix_mask(L) -> int:
     Returns:
         int: masque optimal
     """
-    c = fu.cases_interdites(L)
     score, mask = [], [0,1,10,11,100,101,110,111]
     for i in mask:
-        test = L.copy()
+        test = copy.deepcopy(L)
         appli(test, i, c)
         score.append(eval.evaluer(test))
-    return appli(L, score.index(min(score)), c)
+    return score.index(min(score))
+
+def maskoptimal(L) -> None:
+    """applique le masque optimal au QRcode
+
+    Args:
+        L (list): QRcode
+    """
+    c = fu.cases_interdites(L)
+    return appli(L, choix_mask(L,c), c)
+
