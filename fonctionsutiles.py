@@ -250,22 +250,6 @@ def ecriture(L:list, Données:list) -> list:
                         del Données[0]
     return L
 
-def encode(L:list, octets:list, masque, lvl:int, type:str) -> None:
-    """Encode les informations sous la forme d'une list de bits dans un QRcode
-
-    Args:
-        L (list): QRcode
-        octets (list): informations à encoder dans le QRcode
-        masque (int): masque voulut
-    """
-    ###L = Gen_QRcode(len(octets)//2,True) #TROUVER UNE FORMULE POUR LA TAILLE (ça serait pas mal)
-    verboten = cases_interdites(L) #on liste les emplacements interdit
-    ecriture(L,octets) #on écrit les données
-    mask.appli(L, masque, verboten) #on applique le masque voulut
-    masque = str(masque)
-    for i in range(3): #on inscrit le masque utilisé
-        L[8][2+i], L[-(2+i)][8] = int(masque[i]), int(masque[i])
-
 def decode(L:list) -> list:
     """Décode les informations sous la forme octets dans un QRcode
 

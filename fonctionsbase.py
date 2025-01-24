@@ -88,3 +88,14 @@ def listtobits(L:list) -> list:
     for i in range (len(L)):
         Données += int_to_bits(L[i])
     return Données
+
+def unique(L:list) -> list:
+    """Retourne une liste sans doublon
+
+    Args:
+        L (list): liste
+
+    Returns:
+        list: liste sans doublon
+    """
+    return list(set(L))
