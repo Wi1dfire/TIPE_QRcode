@@ -53,6 +53,15 @@ def affiche_image(L) -> None:
     plt.imshow(L, cmap='gray', clim=(0,1))
     plt.show()
 
+def affiche_image_rainbow(L) -> None:
+    """affiche le QRcode comment une image dans un plot avec un dégradé de couleur
+
+    Args:
+        L (list): QRcode à afficher sous forme de l'image
+    """
+    plt.imshow(L, cmap='rainbow')
+    plt.show()
+
 def loc_alignment(L:list) -> list:
     """localise les centres des motifs d'alignement dans un QRcode
 
