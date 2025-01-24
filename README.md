@@ -14,17 +14,20 @@
 # Tâches à faire
 
 * Généralement
+  * commenter
   * placer des kwargs dans les fonctions
 * Dans `main.py`
   * écrire la fct `reedsolomon_decode`
 * Dans fonctionsutile.py
-  * Placer les cases en arg des fct `lecture` et `ecriture` une fois les fonctions `encode` et `decode` suffisemment aboutit (voir terminé)
+  * OK
 * Dans `image_QRcode_to_liste.py`
   * revoir `recalibrage`
     * ok pour le momment mais potentiels modifications necessaire j : calibrer sur les motifs de calibrage et pas de placement
 * Dans `structure.py`
-  * appliquer les informations contenue dans `loisempiriques.csv`
+  * OK
 * Dans `loisempiriques.py`
   * ok
+* Dans `mask.py`
+  * réussir à inscrire le masque utilisé dans le QRcode
 * Dans `reed-solomon.py`
   * Tout
