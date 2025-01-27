@@ -45,10 +45,10 @@ def encode_info(L:str, lvl:int) -> list:
     Args:
         L (str): information à encoder
         lvl (int): niveau de correction
-        type (str): type d'information
     Returns:
         data (list): données encodées pas rs
     """
+    assert lvl in [7, 15, 25, 30], "Niveau de correction invalide"
     data = []
     type = typeinfo(L)
     #On encode le type d'informations présente
@@ -70,6 +70,22 @@ def encode_info(L:str, lvl:int) -> list:
     data = fb.listtobits(data) #on convertit les données en bits
     return data
 
+def inscritEC(L:list, lvl:int) -> list:
+    """Inscrit les informations de correction d'erreur dans le QRcode
+
+    Args:
+        L (list): QRcode
+        lvl (int): niveau de correction
+    Returns:
+        L (list): QRcode avec les informations de correction d'erreur inscrites
+    """
+    U = [7, 15, 25, 30]
+    EC = bin(U.index(lvl))[2:]
+    print(type(EC))
+    for i in range (len(EC)):
+        L[8][i], L[-1-i][8] = int(EC[i]),int(EC[i])
+    return L
+
 def QRcode(S:str, lvl:int) -> list:
     """(GC) Encode les informations dans un QRcode
 
@@ -81,11 +97,12 @@ def QRcode(S:str, lvl:int) -> list:
     L = co.construit(data)
     L = fu.ecriture(L, data)
     mk.maskoptimal(L)
+    inscritEC(L, lvl)
     fu.affiche_image(L)
     return L
 
 def main():
-    QRcode("Hello World", 30)
+    QRcode("Hello World", 7)
     """L = st.Gen_QRcode(29)
     n=len(L)-1
     alignement = st.alignment()
