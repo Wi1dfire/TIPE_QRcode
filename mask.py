@@ -134,7 +134,7 @@ def appli(L, mask, interdit) -> None:
         masque = "111"
     masque = fb.strtolist(masque)
     for i in range(3): #on inscrit le masque utilisé
-        L[8][2+i], L[-(2+i)][8] = int(masque[i]), int(masque[i])
+        L[8][2+i], L[-(3+i)][8] = int(masque[i]), int(masque[i])
 
 def choix_mask(L,c) -> int:
     """choisit le masque optimal pour le QRcode
@@ -151,7 +151,7 @@ def choix_mask(L,c) -> int:
         test = copy.deepcopy(L)
         appli(test, i, c)
         score.append(eval.evaluer(test))
-    return score.index(min(score))
+    return mask[score.index(min(score))]
 
 def maskoptimal(L) -> None:
     """applique le masque optimal au QRcode
