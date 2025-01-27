@@ -179,6 +179,9 @@ def lecture(L:list) -> list:
         octet = []
     return Données
 
+def comble(L:list) -> list:
+    pass
+
 def ecriture(L:list, Données:list) -> list:
     """écrit une liste de données en binaire dans un QRcode
     En place mais le return permet une utilisation plus facile.
