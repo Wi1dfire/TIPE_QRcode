@@ -18,8 +18,9 @@
   * placer des kwargs dans les fonctions
 * Dans `main.py`
   * écrire la fct `reedsolomon_decode`
-* Dans fonctionsutile.py
-  * OK
+  * vérifier l'encodage par reedsolomon
+* Dans `fonctionsutile.py`
+  * adapter la fonction `écriture` au cas où la liste de bits est trop courte
 * Dans `image_QRcode_to_liste.py`
   * revoir `recalibrage`
     * ok pour le momment mais potentiels modifications necessaire j : calibrer sur les motifs de calibrage et pas de placement
@@ -28,6 +29,6 @@
 * Dans `loisempiriques.py`
   * ok
 * Dans `mask.py`
-  * réussir à inscrire le masque utilisé dans le QRcode
+  * vérifier que le critère de score pour le choix des masque est correct
 * Dans `reed-solomon.py`
   * Tout
