@@ -81,7 +81,6 @@ def inscritEC(L:list, lvl:int) -> list:
     """
     U = [7, 15, 25, 30]
     EC = bin(U.index(lvl))[2:]
-    print(type(EC))
     for i in range (len(EC)):
         L[8][i], L[-1-i][8] = int(EC[i]),int(EC[i])
     return L
@@ -102,7 +101,9 @@ def QRcode(S:str, lvl:int) -> list:
     return L
 
 def main():
-    QRcode("Hello World", 7)
+    msg = input("Qu'est-ce que tu veux encoder ? ")
+    lvl = int(input("Quel niveau de correction ? "))
+    QRcode(msg, lvl)
     """L = st.Gen_QRcode(29)
     n=len(L)-1
     alignement = st.alignment()
