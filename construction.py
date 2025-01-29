@@ -13,7 +13,8 @@ def utilisable(data:list)->list:
     return D
 
 def loc_alignements(v:int)->list:
-    if "image_test_QRcode\empirique" not in os.getcwd():
+    dir = "image_test_QRcode\empirique"
+    if dir != os.getcwd()[-len(dir):]:
         os.chdir("./image_test_QRcode/empirique")
     # Ouvrir le fichier CSV et le convertir en liste
     with open('loisempiriques.csv', newline='') as csvfile:
