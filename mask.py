@@ -107,32 +107,10 @@ def appli(L, mask, interdit) -> None:
         mask (int): masque souhaité
         interdit (list): liste des cases interdites à donner en argument à la fonction masque
     """
-    masque = ""
-    if mask == 0:
-        mask_000(L, interdit)
-        masque = "000"
-    elif mask == 1:
-        mask_001(L, interdit)
-        masque = "001"
-    elif mask == 10:
-        mask_010(L, interdit)
-        masque = "010"
-    elif mask == 11:
-        mask_011(L, interdit)
-        masque = "011"
-    elif mask == 100:
-        mask_100(L, interdit)
-        masque = "100"
-    elif mask == 101:
-        mask_101(L, interdit)
-        masque = "101"
-    elif mask == 110:
-        mask_110(L, interdit)
-        masque = "110"
-    elif mask == 111:
-        mask_111(L, interdit)
-        masque = "111"
-    masque = fb.strtolist(masque)
+    funcs = {0:mask_000, 1:mask_001, 10:mask_010, 11:mask_011, 100:mask_100, 101:mask_101, 110:mask_110, 111:mask_111}
+    funcs.get(mask)(L, interdit)
+    masque = "00"+str(mask)
+    masque = fb.strtolist(masque)[-3:]
     for i in range(3): #on inscrit le masque utilisé
         L[8][2+i], L[-(3+i)][8] = int(masque[i]), int(masque[i])
 
