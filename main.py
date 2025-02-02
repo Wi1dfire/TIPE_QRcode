@@ -49,17 +49,10 @@ def encode_info(L:str, lvl:int) -> list:
         data (list): données encodées pas rs
     """
     assert lvl in [7, 15, 25, 30], "Niveau de correction invalide"
-    data = []
     type = typeinfo(L)
-    #On encode le type d'informations présente
-    if type == "numérique":
-        data = [0,0,0,1]
-    if type == "alphanumérique":
-        data = [0,0,1,0]
-    if type == "kanji":
-        data = [1,0,0,0]
+    D = {"numérique":[0,0,0,1],"alphanumérique":[0,0,1,0],"kanji":[1,0,0,0],"binaire":[0,1,0,0]}
+    data = D[type] #on ajoute le type d'information encodée
     if type == "binaire":
-        data = [0,1,0,0]
         donnees = [int(i) for i in L]
     else :
         donnees = fb.str_to_bits(L) #on convertit les données en bits avec la table Unicode
@@ -101,7 +94,7 @@ def QRcode(S:str, lvl:int) -> list:
     return L
 
 def main():
-    msg = input("Qu'est-ce que tu veux encoder ? ")
+    msg = input("Que voulez vous encoder ? ")
     lvl = int(input("Quel niveau de correction ? "))
     QRcode(msg, lvl)
     """L = st.Gen_QRcode(29)
