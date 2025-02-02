@@ -1,6 +1,9 @@
 import structure as st
 import mask
 import matplotlib.pyplot as plt
+import random as rd
+
+rd.seed(0)
 
 def rotation(L:list) -> list:
     """effectue une rotation de -pi/2 d'une liste de liste carrée.
@@ -200,26 +203,26 @@ def ecriture(L:list, Données:list) -> list:
             if i % 2 == 0 : #parcour les colonnes de droite à gauche si l'indice est paire, on parcoure de bas en haut
                 if (n-j,n-2*i) not in cases : # on commence par le bit à droite, si l'emplacement n'est pas interdit écrit dedans
                     if len(Données) == 0 : #si on a plus de Données à écrire on place un 0 par défaut
-                        L[n-j][n-2*i] = 0
+                        L[n-j][n-2*i] = rd.randint(0,1)
                     else : #sinon on place le premier bit qui vient dans la liste Données et on le retire
                         L[n-j][n-2*i] = Données[0]
                         del Données[0]
                 if (n-j,n-(2*i+1)) not in cases : # puis même chose pour le bit de gauche
                     if len(Données) == 0 : #si on a plus de Données à écrire on place un 0 par défaut
-                        L[n-j][n-(2*i+1)] = 0
+                        L[n-j][n-(2*i+1)] = rd.randint(0,1)
                     else : #sinon on place le premier bit qui vient dans la liste Données et on le retire
                         L[n-j][n-(2*i+1)] = Données[0]
                         del Données[0]
             else : #parcour les colonnes de droite à gauche si l'indice est impaire, on parcoure de haut en bas
                 if (j,n-2*i) not in cases : # on commence par le bit à droite, si l'emplacement n'est pas interdit écrit dedans
                     if len(Données) == 0 : #si on a plus de Données à écrire on place un 0 par défaut
-                        L[j][n-2*i] = 0
+                        L[j][n-2*i] = rd.randint(0,1)
                     else : #sinon on place le premier bit qui vient dans la liste Données et on le retire
                         L[j][n-2*i] = Données[0]
                         del Données[0]
                 if (j,n-(2*i+1)) not in cases: # puis même chose pour le bit de gauche
                     if len(Données) == 0 : #si on a plus de Données à écrire on place un 0 par défaut
-                        L[j][n-(2*i+1)] = 0
+                        L[j][n-(2*i+1)] = rd.randint(0,1)
                     else : #sinon on place le premier bit qui vient dans la liste Données et on le retire
                         L[j][n-(2*i+1)] = Données[0]
                         del Données[0]
@@ -228,26 +231,26 @@ def ecriture(L:list, Données:list) -> list:
             if i % 2 == 1 : #parcour les colonnes de droite à gauche si l'indice est impaire, on parcoure de bas en haut
                 if (n-j,5-2*i) not in cases : # on commence par le bit à droite, si l'emplacement n'est pas interdit écrit dedans
                     if len(Données) == 0 : #si on a plus de Données à écrire on place un 0 par défaut
-                        L[n-j][5-2*i] = 0
+                        L[n-j][5-2*i] = rd.randint(0,1)
                     else : #sinon on place le premier bit qui vient dans la liste Données et on le retire
                         L[n-j][5-2*i] = Données[0]
                         del Données[0]
                 if (n-j,5-(i*2+1)) not in cases : # puis même chose pour le bit de gauche
                     if len(Données) == 0 : #si on a plus de Données à écrire on place un 0 par défaut
-                        L[n-j][5-(i*2+1)] = 0
+                        L[n-j][5-(i*2+1)] = rd.randint(0,1)
                     else : #sinon on place le premier bit qui vient dans la liste Données et on le retire
                         L[n-j][5-(i*2+1)] = Données[0]
                         del Données[0]
             else : #parcour les colonnes de droite à gauche si l'indice est paire, on parcoure de haut en bas
                 if (j,5-2*i) not in cases : # on commence par le bit à droite, si l'emplacement n'est pas interdit écrit dedans
                     if len(Données) == 0 : #si on a plus de Données à écrire on place un 0 par défaut
-                        L[j][5-2*i] = 0
+                        L[j][5-2*i] = rd.randint(0,1)
                     else : #sinon on place le premier bit qui vient dans la liste Données et on le retire
                         L[j][5-2*i] = Données[0]
                         del Données[0]
                 if (j,5-(i*2+1)) not in cases: # puis même chose pour le bit de gauche
                     if len(Données) == 0 : #si on a plus de Données à écrire on place un 0 par défaut
-                        L[j][5-(i*2+1)] = 0
+                        L[j][5-(i*2+1)] = rd.randint(0,1)
                     else : #sinon on place le premier bit qui vient dans la liste Données et on le retire
                         L[j][5-(i*2+1)] = Données[0]
                         del Données[0]
