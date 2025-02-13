@@ -1,5 +1,6 @@
 import structure as st
 import mask
+import fonctionsbase as fb
 import matplotlib.pyplot as plt
 import random as rd
 
@@ -182,9 +183,6 @@ def lecture(L:list) -> list:
         octet = []
     return Données
 
-def comble(L:list) -> list:
-    pass
-
 def ecriture(L:list, Données:list) -> list:
     """écrit une liste de données en binaire dans un QRcode
     En place mais le return permet une utilisation plus facile.
@@ -271,4 +269,9 @@ def decode(L:list) -> list:
         mask += L[8][2+i] *(10**(2-i))
     mask.appli(L, mask, verboten) #on réapplique le masque pour retrouver les données initiales
     données = lecture(L) # on lit les données du QRcode
+    D = {[0,0,0,1]:"numérique",[0,0,1,0]:"alphanumérique",[1,0,0,0]:"kanji",[0,1,0,0]:"binaire"}
+    type = D[données[:4]] # on récupère le type d'information
+    données = données[4:]
+    length = fb.bitslisttoint(données[:8])*8
+    données = données[8:8+length]
     return données
