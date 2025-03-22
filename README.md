@@ -20,7 +20,7 @@
   * écrire la fct `reedsolomon_decode`
   * vérifier l'encodage par reedsolomon
 * Dans `fonctionsutile.py`
-  * ok
+  * finir la fonction `decode`
 * Dans `image_QRcode_to_liste.py`
   * revoir `recalibrage`
     * ok pour le momment mais potentiels modifications necessaire j : calibrer sur les motifs de calibrage et pas de placement
@@ -29,6 +29,6 @@
 * Dans `loisempiriques.py`
   * ok
 * Dans `mask.py`
-  * ok
+  * la fonction `retirer_masque` ne retire pas le masque (problème non identifié)
 * Dans `reed-solomon.py`
   * Tout
