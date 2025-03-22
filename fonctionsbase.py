@@ -101,4 +101,4 @@ def unique(L:list) -> list:
     return list(set(L))
 
 def bitslisttoint(L:list) -> int:
-    return sum([L[i]*2**(7-i) for i in range(L)])
+    return sum([L[i]*2**(7-i) for i in range(len(L))])
