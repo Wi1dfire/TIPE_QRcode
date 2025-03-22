@@ -3,6 +3,7 @@ import mask
 import fonctionsbase as fb
 import matplotlib.pyplot as plt
 import random as rd
+import image_QRcode_to_liste as iql
 
 rd.seed(0)
 
@@ -254,15 +255,17 @@ def ecriture(L:list, Données:list) -> list:
                         del Données[0]
     return L
 
-def decode(L:list) -> list:
+def decode(QRcode:list) -> list:
     """Décode les informations sous la forme octets dans un QRcode
 
     Args:
-        L (list): QRcode à décoder
+        QRcode (list): QRcode à décoder
 
     Returns:
         list: données décodé sous la forme de liste d'octets (sous la forme de liste)
     """
+    L = QRcode.copy()
+    iql.recalibrage(L) #on recalibre l'image
     verboten = cases_interdites(L) #on liste les emplacements interdit
     masque= L[8][:3] #on prépare le masque qui à été utilisé
     masq = 0
@@ -278,4 +281,10 @@ def decode(L:list) -> list:
     données = données[4:]
     length = fb.bitslisttoint(données[0])
     données = données[0:8+length]
-    return length, tipe, données, masq
+    return tipe, masq
+
+def main():
+    print("Main function executed.")
+
+if __name__ == "__main__":
+    main()
