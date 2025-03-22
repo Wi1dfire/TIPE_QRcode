@@ -264,14 +264,18 @@ def decode(L:list) -> list:
         list: données décodé sous la forme de liste d'octets (sous la forme de liste)
     """
     verboten = cases_interdites(L) #on liste les emplacements interdit
-    mask=0 #on prépare le masque qui à été utilisé
+    masque= L[8][:3] #on prépare le masque qui à été utilisé
+    masq = 0
     for i in range(3): # on cherche le masque utilisé
-        mask += L[8][2+i] *(10**(2-i))
-    mask.appli(L, mask, verboten) #on réapplique le masque pour retrouver les données initiales
+        masq += masque[i] *(10**(2-i))
+    mask.appli(L, masq, verboten) #on réapplique le masque pour retrouver les données initiales
     données = lecture(L) # on lit les données du QRcode
-    D = {[0,0,0,1]:"numérique",[0,0,1,0]:"alphanumérique",[1,0,0,0]:"kanji",[0,1,0,0]:"binaire"}
-    type = D[données[:4]] # on récupère le type d'information
+    D = {(0,0,0,1):"numérique",(0,0,1,0):"alphanumérique",(1,0,0,0):"kanji",(0,1,0,0):"binaire"} #on définit les types d'informations
+    tipe = ""
+    for i in D.keys(): #on cherche le type d'information
+        if all(données[x] == i[x] for x in range(4)):
+            tipe = D[i] # on récupère le type d'information
     données = données[4:]
-    length = fb.bitslisttoint(données[:8])*8
-    données = données[8:8+length]
-    return données
+    length = fb.bitslisttoint(données[0])
+    données = données[0:8+length]
+    return length, tipe, données, masq

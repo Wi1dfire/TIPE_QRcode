@@ -96,7 +96,8 @@ def QRcode(S:str, lvl:int) -> list:
 def main():
     msg = input("Que voulez vous encoder ? ")
     lvl = int(input("Quel niveau de correction ? "))
-    QRcode(msg, lvl)
+    code = QRcode(msg, lvl)
+    print(fu.decode(code))
     """L = st.Gen_QRcode(29)
     n=len(L)-1
     alignement = st.alignment()
