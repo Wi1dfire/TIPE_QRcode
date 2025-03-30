@@ -90,7 +90,6 @@ def QRcode(S:str, lvl:int) -> list:
     L = fu.ecriture(L, data)
     mk.maskoptimal(L)
     inscritEC(L, lvl)
-    fu.affiche_image(L)
     return L
 
 def main():
