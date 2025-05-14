@@ -58,7 +58,7 @@ def affiche_image(L:list) -> None:
     plt.imshow(L, cmap='gray', clim=(0,1))
     plt.show()
 
-def affiche_image_rainbow(L) -> None:
+def affiche_image_rainbow(L:list) -> None:
     """affiche le QRcode comment une image dans un plot avec un dégradé de couleur
 
     Args:
@@ -271,7 +271,7 @@ def decode(QRcode:list) -> list:
     données = fb.octetstoliste(lecture(L)) # on lit les données du QRcode
     D = {(0,0,0,1):"numérique",(0,0,1,0):"alphanumérique",(1,0,0,0):"kanji",(0,1,0,0):"binaire"} #on définit les types d'informations
     tipe = ""
-    print(données[:4])
+    
     for i in D.keys(): #on cherche le type d'information
         if all(données[x] == list(i)[x] for x in range(4)):
             tipe = D[i] # on récupère le type d'information
