@@ -49,7 +49,7 @@ def affiche(L:list) -> None:
     for i in range (len(L)):
         print(L[i])
 
-def affiche_image(L) -> None:
+def affiche_image(L:list) -> None:
     """affiche le QRcode comment une image dans un plot
 
     Args:
@@ -268,18 +268,32 @@ def decode(QRcode:list) -> list:
     iql.recalibrage(L) #on recalibre l'image
     verboten = cases_interdites(L) #on liste les emplacements interdit
     mask.retirer_masque(L) #on retire le masque pour retrouver les données initiales
-    données = lecture(L) # on lit les données du QRcode
+    données = fb.octetstoliste(lecture(L)) # on lit les données du QRcode
     D = {(0,0,0,1):"numérique",(0,0,1,0):"alphanumérique",(1,0,0,0):"kanji",(0,1,0,0):"binaire"} #on définit les types d'informations
     tipe = ""
+    print(données[:4])
     for i in D.keys(): #on cherche le type d'information
-        if all(données[x] == i[x] for x in range(4)):
+        if all(données[x] == list(i)[x] for x in range(4)):
             tipe = D[i] # on récupère le type d'information
-    données = données[4:]
-    length = fb.bitslisttoint(données[0])
-    données = données[0:8+length]
-    return tipe
+    données = données[4:] #on retire le type d'information
+    length = fb.bitslisttoint(données[:8]) #on récupère la longueur de l'information
+    données = données[8:8+length*8] #on garde que les données
+    if tipe == "binaire":
+        return "".join([str(i) for i in données]) #on retourne les données sous forme de chaine de caractère
+    elif tipe == "numérique":
+        return fb.bitstolist(données) #on retourne les données sous forme de liste d'octets
+    else :
+        return fb.bits_to_str(données) #on retourne les données sous forme de chaine de caractère
 
-def masque_utilise(L):
+def masque_utilise(L:list) -> int:
+    """retourne le masque utilisé dans le QRcode
+
+    Args:
+        L (list): QRcode
+
+    Returns:
+        int: le masque utilisé dans le QRcode
+    """
     masque= L[8] #on repère le masque qui à été utilisé
     masq = 0
     for i in range(3): # on cherche le masque utilisé
