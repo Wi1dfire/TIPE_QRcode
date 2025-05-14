@@ -35,7 +35,7 @@ def typeinfo(L:str) -> str:
         return "binaire"
     if L.isnumeric():
         return "numérique"
-    if L.isalnum():
+    if all(c.isalnum() or c.isspace() or c in "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|`~" for c in L):
         return "alphanumérique"
     return "kanji"
 
@@ -96,7 +96,8 @@ def main():
     msg = "Hello world!" #input("Que voulez vous encoder ? ")
     lvl = 30 #int(input("Quel niveau de correction ? "))
     code = QRcode(msg, lvl)
-    fu.affiche_image(code)
+    dec = fu.decode(code)
+    print("Données décodées : ", dec)
     """L = st.Gen_QRcode(29)
     n=len(L)-1
     alignement = st.alignment()
