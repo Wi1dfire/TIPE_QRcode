@@ -29,6 +29,6 @@
 * Dans `loisempiriques.py`
   * ok
 * Dans `mask.py`
-  * la fonction `retirer_masque` ne retire pas le masque (problème non identifié)
+  * OK
 * Dans `reed-solomon.py`
   * Tout
