@@ -32,6 +32,21 @@ def str_to_bits(L:str) -> list:
         res += format(ord(L[i]), '08b')
     return [int(i) for i in res]
 
+def bits_to_str(L:list) -> str:
+    """Transforme une liste de bits en chaine de caractère
+
+    Args:
+        L (list): liste de bits
+
+    Returns:
+        str: chaine de caractère
+    """
+    res = ""
+    for i in range(0, len(L), 8):
+        byte = int("".join(map(str, L[i:i+8])), 2)
+        res += chr(byte)
+    return res
+
 def bitstolist(L:list) -> list:
     """Transforme une liste de bits en liste d'entiers
 
@@ -101,4 +116,12 @@ def unique(L:list) -> list:
     return list(set(L))
 
 def bitslisttoint(L:list) -> int:
+    """convertit une liste de 8 bits en entier
+
+    Args:
+        L (list): liste de 8 bits
+
+    Returns:
+        int: entier en base 10
+    """
     return sum([L[i]*2**(7-i) for i in range(len(L))])
