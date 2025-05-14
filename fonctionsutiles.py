@@ -267,11 +267,7 @@ def decode(QRcode:list) -> list:
     L = QRcode.copy()
     iql.recalibrage(L) #on recalibre l'image
     verboten = cases_interdites(L) #on liste les emplacements interdit
-    masque= L[8][:3] #on prépare le masque qui à été utilisé
-    masq = 0
-    for i in range(3): # on cherche le masque utilisé
-        masq += masque[i] *(10**(2-i))
-    mask.appli(L, masq, verboten) #on réapplique le masque pour retrouver les données initiales
+    mask.retirer_masque(L) #on retire le masque pour retrouver les données initiales
     données = lecture(L) # on lit les données du QRcode
     D = {(0,0,0,1):"numérique",(0,0,1,0):"alphanumérique",(1,0,0,0):"kanji",(0,1,0,0):"binaire"} #on définit les types d'informations
     tipe = ""
@@ -281,7 +277,14 @@ def decode(QRcode:list) -> list:
     données = données[4:]
     length = fb.bitslisttoint(données[0])
     données = données[0:8+length]
-    return tipe, masq
+    return tipe
+
+def masque_utilise(L):
+    masque= L[8] #on repère le masque qui à été utilisé
+    masq = 0
+    for i in range(3): # on cherche le masque utilisé
+        masq += masque[2+i] *(10**(2-i))
+    return masq
 
 def main():
     print("Main function executed.")
