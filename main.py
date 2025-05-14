@@ -88,16 +88,15 @@ def QRcode(S:str, lvl:int) -> list:
     data = encode_info(S, lvl)
     L = co.construit(data)
     L = fu.ecriture(L, data)
-    mk.maskoptimal(L)
     inscritEC(L, lvl)
+    mk.maskoptimal(L)
     return L
 
 def main():
     msg = "Hello world!" #input("Que voulez vous encoder ? ")
     lvl = 30 #int(input("Quel niveau de correction ? "))
     code = QRcode(msg, lvl)
-    dec = fu.decode(code)
-    print(dec)
+    fu.affiche_image(code)
     """L = st.Gen_QRcode(29)
     n=len(L)-1
     alignement = st.alignment()
@@ -120,7 +119,5 @@ def main():
     fu.affiche_image_rainbow(L)
     """
 
-# print("Done importing")
 if __name__ == "__main__":
-    #print("Executing main")
     main()
