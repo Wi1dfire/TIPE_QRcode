@@ -143,3 +143,16 @@ def typeinfo(L:str) -> str:
     if all(c.isalnum() or c.isspace() or c in "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|`~" for c in L):
         return "alphanumérique"
     return "kanji"
+
+def retirezeros(L:list) -> list:
+    """retire les 0 de début de la liste 
+
+    Args:
+        L (list): liste à traiter
+
+    Returns:
+        list: liste sans 0 au début
+    """
+    while L and L[0] == 0:
+        L.pop(0)
+    return L
