@@ -125,3 +125,21 @@ def bitslisttoint(L:list) -> int:
         int: entier en base 10
     """
     return sum([L[i]*2**(7-i) for i in range(len(L))])
+
+def typeinfo(L:str) -> str:
+    """Retourne le type d'information contenu dans une chaîne de caractères
+    (numérique, alphanumérique, binaire ou kanji)
+
+    Args:
+        L (str): information
+
+    Returns:
+        str: type d'information
+    """
+    if all(c in '01' for c in L):
+        return "binaire"
+    if L.isnumeric():
+        return "numérique"
+    if all(c.isalnum() or c.isspace() or c in "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|`~" for c in L):
+        return "alphanumérique"
+    return "kanji"

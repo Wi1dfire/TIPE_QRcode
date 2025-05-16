@@ -22,23 +22,6 @@ def reedsolomon(bits:list, lvl : int) -> list:
 def reedsolomon_decode(L:list, octets:list, lvl : int):
     pass
 
-def typeinfo(L:str) -> str:
-    """Retourne le type d'information
-
-    Args:
-        L (str): information
-
-    Returns:
-        str: type d'information
-    """
-    if all(c in '01' for c in L):
-        return "binaire"
-    if L.isnumeric():
-        return "numérique"
-    if all(c.isalnum() or c.isspace() or c in "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|`~" for c in L):
-        return "alphanumérique"
-    return "kanji"
-
 def encode_info(L:str, lvl:int) -> list:
     """Encode les informations dans un QRcode
 
@@ -49,7 +32,7 @@ def encode_info(L:str, lvl:int) -> list:
         data (list): données encodées pas rs
     """
     assert lvl in [7, 15, 25, 30], "Niveau de correction invalide"
-    type = typeinfo(L)
+    type = fb.typeinfo(L)
     D = {"numérique":[0,0,0,1],"alphanumérique":[0,0,1,0],"kanji":[1,0,0,0],"binaire":[0,1,0,0]}
     data = D[type] #on ajoute le type d'information encodée
     if type == "binaire":

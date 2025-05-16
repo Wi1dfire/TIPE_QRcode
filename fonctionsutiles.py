@@ -4,6 +4,7 @@ import fonctionsbase as fb
 import matplotlib.pyplot as plt
 import random as rd
 import image_QRcode_to_liste as iql
+import copy
 
 rd.seed(0)
 
@@ -255,6 +256,12 @@ def ecriture(L:list, Données:list) -> list:
                         del Données[0]
     return L
 
+def get_typeinfo(L:list) -> str:
+    D = {(0,0,0,1):"numérique",(0,0,1,0):"alphanumérique",(1,0,0,0):"kanji",(0,1,0,0):"binaire"} #on définit les types d'informations
+    for i in D.keys(): #on cherche le type d'information
+        if all(L[x] == list(i)[x] for x in range(4)):
+            return D[i] # on récupère le type d'information
+
 def decode(QRcode:list) -> list:
     """Décode les informations sous la forme octets dans un QRcode
 
@@ -264,17 +271,11 @@ def decode(QRcode:list) -> list:
     Returns:
         list: données décodé sous la forme de liste d'octets (sous la forme de liste)
     """
-    L = QRcode.copy()
+    L = copy.deepcopy(QRcode)
     iql.recalibrage(L) #on recalibre l'image
-    verboten = cases_interdites(L) #on liste les emplacements interdit
     mask.retirer_masque(L) #on retire le masque pour retrouver les données initiales
     données = fb.octetstoliste(lecture(L)) # on lit les données du QRcode
-    D = {(0,0,0,1):"numérique",(0,0,1,0):"alphanumérique",(1,0,0,0):"kanji",(0,1,0,0):"binaire"} #on définit les types d'informations
-    tipe = ""
-    
-    for i in D.keys(): #on cherche le type d'information
-        if all(données[x] == list(i)[x] for x in range(4)):
-            tipe = D[i] # on récupère le type d'information
+    tipe = get_typeinfo(données) #on récupère le type d'information
     données = données[4:] #on retire le type d'information
     length = fb.bitslisttoint(données[:8]) #on récupère la longueur de l'information
     données = données[8:8+length*8] #on garde que les données
