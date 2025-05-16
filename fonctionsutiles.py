@@ -271,7 +271,7 @@ def decode(QRcode:list) -> list:
     Returns:
         list: données décodé sous la forme de liste d'octets (sous la forme de liste)
     """
-    L = copy.deepcopy(QRcode)
+    L = copy.deepcopy(QRcode) #on fait une copie de l'image pour ne pas la modifier
     iql.recalibrage(L) #on recalibre l'image
     mask.retirer_masque(L) #on retire le masque pour retrouver les données initiales
     données = fb.octetstoliste(lecture(L)) # on lit les données du QRcode
