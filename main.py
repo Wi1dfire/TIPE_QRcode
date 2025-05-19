@@ -46,21 +46,6 @@ def encode_info(L:str, lvl:int) -> list:
     data = fb.listtobits(data) #on convertit les données en bits
     return data
 
-def inscritEC(L:list, lvl:int) -> list:
-    """Inscrit les informations de correction d'erreur dans le QRcode
-
-    Args:
-        L (list): QRcode
-        lvl (int): niveau de correction
-    Returns:
-        L (list): QRcode avec les informations de correction d'erreur inscrites
-    """
-    U = [7, 15, 25, 30]
-    EC = bin(U.index(lvl))[2:]
-    for i in range (len(EC)):
-        L[8][i], L[-1-i][8] = int(EC[i]),int(EC[i])
-    return L
-
 def QRcode(S:str, lvl:int) -> list:
     """(GC) Encode les informations dans un QRcode
 
@@ -71,14 +56,14 @@ def QRcode(S:str, lvl:int) -> list:
     data = encode_info(S, lvl)
     L = co.construit(data)
     L = fu.ecriture(L, data)
-    inscritEC(L, lvl)
-    mk.maskoptimal(L)
+    mk.maskoptimal(L, lvl)
     return L
 
 def main():
     msg = "Hello world!" #input("Que voulez vous encoder ? ")
     lvl = 30 #int(input("Quel niveau de correction ? "))
     code = QRcode(msg, lvl)
+    fu.affiche_image(code)
     dec = fu.decode(code)
     print("Données décodées : ", dec)
     """L = st.Gen_QRcode(29)
