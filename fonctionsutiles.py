@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import random as rd
 import image_QRcode_to_liste as iql
 import copy
+import informationsformat as informat
 
 rd.seed(0)
 
@@ -286,6 +287,23 @@ def decode(QRcode:list) -> list:
     else :
         return fb.bits_to_str(données) #on retourne les données sous forme de chaine de caractère
 
+def recupinformat(L:list) -> list:
+    """récupère les informations de format du QRcode
+
+    Args:
+        L (list): QRcode
+
+    Returns:
+        list: informations de format
+    """
+    info = []
+    for i in range(8):
+        info.append(L[i][8])
+    for i in range(8, 15):
+        info.append(L[8][7+8-i])
+    info.reverse()
+    return info
+
 def masque_utilise(L:list) -> int:
     """retourne le masque utilisé dans le QRcode
 
@@ -295,7 +313,9 @@ def masque_utilise(L:list) -> int:
     Returns:
         int: le masque utilisé dans le QRcode
     """
-    masque= L[8] #on repère le masque qui à été utilisé
+    m = [1,0,1,0,1,0,0,0,0,0,1,0,0,1,0]
+    iforma = recupinformat(L) #on récupère les informations de format
+    masque= fb.XORlist(iforma,m) #on repère le masque qui à été utilisé
     masq = 0
     for i in range(3): # on cherche le masque utilisé
         masq += masque[2+i] *(10**(2-i))
