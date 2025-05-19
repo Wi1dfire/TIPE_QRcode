@@ -47,7 +47,7 @@ def encode_info(L:str, lvl:int) -> list:
     return data
 
 def QRcode(S:str, lvl:int) -> list:
-    """(GC) Encode les informations dans un QRcode
+    """Encode les informations dans un QRcode
 
     Args:
         S (str): information à encoder
