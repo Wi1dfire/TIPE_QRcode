@@ -156,3 +156,27 @@ def retirezeros(L:list) -> list:
     while L and L[0] == 0:
         L.pop(0)
     return L
+
+def XORlist(L1:list, L2:list) -> list:
+    """Effectue un XOR entre deux listes de bits
+
+    Args:
+        L1 (list): liste 1
+        L2 (list): liste 2
+
+    Returns:
+        list: liste de bits résultante
+    """
+    assert len(L1) == len(L2), "Les listes doivent avoir la même longueur"
+    return [(a + b) % 2 for a, b in zip(L1, L2)]
+
+def strbtolistb(L:str) -> list:
+    """Transforme une chaîne de charatère de bits en liste de bits
+
+    Args:
+        L (str): chaîne de charatère de bits
+
+    Returns:
+        list: liste de bits
+    """
+    return [1 if i == "1" else 0 for i in L]
