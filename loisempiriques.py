@@ -28,7 +28,7 @@ def alignements_empiriques(img:list)->list:
     """
     return fu.loc_alignment(img)
 
-def espace_empirique(img:list)->int:
+def espace_empirique(img:list, version: int)->int:
     """
     retourne nombre de cases utilisables dans le QRcode
 
@@ -38,7 +38,7 @@ def espace_empirique(img:list)->int:
     Returns:
         int: nombre de cases utilisables
     """
-    return len(img)**2 - len(fb.unique(fu.cases_interdites(img)))
+    return len(img)**2 - len(fb.unique(fu.cases_interdites(img,version)))
 
 def tocsv(data:list)->None:
     """créé un fichier csv avec les données
@@ -65,7 +65,7 @@ def main():
     for i in range(1,41): #on parcourt les QRcodes
         img = mpimg.imread("./QRcode/qrcodeV"+str(i)+".png").tolist() #on charge l'image
         img = iQTL.recalibrage(img) #on la recalibre pour la rendre exploitable par le programme
-        data.append([i,alignements_empiriques(img),len(img), espace_empirique(img)])#on ajoute les données à la liste des données
+        data.append([i,alignements_empiriques(img),len(img), espace_empirique(img,i)])#on ajoute les données à la liste des données
     tocsv(data) #on convertie les données en csv
     if len(os.listdir("./QRcode")) == 40: #on vérifie si la base de QRcodes est complète pour la supprimer
         remove_files()
