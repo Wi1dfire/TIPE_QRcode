@@ -6,6 +6,14 @@ import fonctionsbase as fb
 import informationsversion as iv
 
 def utilisable(data:list)->list:
+    """rend utilisable les données extraites d'un fichier csv similaire à : loisempiriques.csv
+
+    Args:
+        data (list): données extraites
+
+    Returns:
+        list: données rendu utilisable
+    """
     data = data.split(", ")
     D = []
     for i in range(len(data)//2):
@@ -15,6 +23,14 @@ def utilisable(data:list)->list:
     return D
 
 def loc_alignements(v:int)->list:
+    """renvoie la liste des localisations des motifs d'alignements pour une version de QRcode donnée
+
+    Args:
+        v (int): version
+
+    Returns:
+        list: liste des localisations des motifs d'alignements
+    """
     dir = "image_test_QRcode\empirique"
     if dir != os.getcwd()[-len(dir):]:
         os.chdir("./image_test_QRcode/empirique")
@@ -26,6 +42,15 @@ def loc_alignements(v:int)->list:
     return  data_list
 
 def construit(L:list)->tuple[list, int]:
+    """construit le "squelette" du QRcode de la bonne version (qui sera renvoyée) 
+    à partir des données que l'on veut y encoder
+
+    Args:
+        L (list): données que l'on veut encoder
+
+    Returns:
+        tuple[list, int]: squelette du QRcode et sa version
+    """
     v = version(L)
     n = 21 + 4*(v-1)
     QRcode = st.Gen_QRcode(n)
@@ -42,8 +67,16 @@ def construit(L:list)->tuple[list, int]:
     return QRcode, v
 
 def version(L:list)->int:
+    """détermine la version d'un QRcode
+    à partir des données que l'on veut y encoder
+
+    Args:
+        L (list): données que l'on veut encoder
+
+    Returns:
+        int: version du QRcode necessaire
+    """
     n = len(L)
-    qsdg = os.getcwd()
     os.chdir(".\\image_test_QRcode\\empirique")
     # Ouvrir le fichier CSV et le convertir en liste
     with open('loisempiriques.csv', newline='') as csvfile:

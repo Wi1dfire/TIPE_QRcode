@@ -14,7 +14,6 @@
 # Tâches à faire
 
 * Généralement
-  * commenter
 * Dans `main.py`
   * écrire la fct `reedsolomon_decode`
   * vérifier l'encodage par reedsolomon

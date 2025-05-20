@@ -4,7 +4,7 @@ import copy
 import fonctionsbase as fb
 import informationsformat as informat
 
-def mask_000(L, interdit) -> None:
+def mask_000(L:list, interdit:list) -> None:
     """applique le masque 000 au QRcode
 
     Args:
@@ -16,7 +16,7 @@ def mask_000(L, interdit) -> None:
             if (i,j) not in interdit and (i+j)%2 == 0 :
                 L[i][j] = (L[i][j]+1)%2
 
-def mask_001(L, interdit) -> None:
+def mask_001(L:list, interdit:list) -> None:
     """applique le masque 001 au QRcode
 
     Args:
@@ -28,7 +28,7 @@ def mask_001(L, interdit) -> None:
             if (i,j) not in interdit and i%2 == 0 :
                 L[i][j] = (L[i][j]+1)%2
 
-def mask_010(L, interdit) -> None:
+def mask_010(L:list, interdit:list) -> None:
     """applique le masque 010 au QRcode
 
     Args:
@@ -40,7 +40,7 @@ def mask_010(L, interdit) -> None:
             if (i,j) not in interdit and j%3 == 0 :
                 L[i][j] = (L[i][j]+1)%2
 
-def mask_011(L, interdit) -> None:
+def mask_011(L:list, interdit:list) -> None:
     """applique le masque 011 au QRcode
 
     Args:
@@ -52,7 +52,7 @@ def mask_011(L, interdit) -> None:
             if (i,j) not in interdit and (i+j)%3 == 0 :
                 L[i][j] = (L[i][j]+1)%2
 
-def mask_100(L, interdit) -> None:
+def mask_100(L:list, interdit:list) -> None:
     """applique le masque 100 au QRcode
 
     Args:
@@ -64,7 +64,7 @@ def mask_100(L, interdit) -> None:
             if (i,j) not in interdit and (i/2+j/3)%2 == 0 :
                 L[i][j] = (L[i][j]+1)%2
 
-def mask_101(L, interdit) -> None:
+def mask_101(L:list, interdit:list) -> None:
     """applique le masque 101 au QRcode
 
     Args:
@@ -76,7 +76,7 @@ def mask_101(L, interdit) -> None:
             if (i,j) not in interdit and (i*j)%3+(i*j)%2 == 0 :
                 L[i][j] = (L[i][j] + 1) % 2
 
-def mask_110(L, interdit) -> None:
+def mask_110(L:list, interdit:list) -> None:
     """applique le masque 100 au QRcode
 
     Args:
@@ -88,7 +88,7 @@ def mask_110(L, interdit) -> None:
             if (i,j) not in interdit and ((i*j)%3+i*j)%2 == 0 :
                 L[i][j] = (L[i][j]+1)%2
 
-def mask_111(L, interdit) -> None:
+def mask_111(L:list, interdit:list) -> None:
     """applique le masque 111 au QRcode
 
     Args:
@@ -100,13 +100,14 @@ def mask_111(L, interdit) -> None:
             if (i,j) not in interdit and ((i*j)%3+i+j)%2 == 0 :
                 L[i][j] = (L[i][j] + 1) % 2
 
-def appli(L, mask, interdit, cor) -> None:
+def appli(L:list, mask:int, interdit:list, cor:list) -> None:
     """applique le masque voulut au QRcode
 
     Args:
         L (list): Qrcode
         mask (int): masque souhaité
         interdit (list): liste des cases interdites à donner en argument à la fonction masque
+        cor (list): niveau de correction
     """
     funcs = {0:mask_000, 1:mask_001, 10:mask_010, 11:mask_011, 100:mask_100, 101:mask_101, 110:mask_110, 111:mask_111}
     funcs.get(mask)(L, interdit)
@@ -118,7 +119,7 @@ def appli(L, mask, interdit, cor) -> None:
     for i in range (8, len(info)):
         L[8][7+8-i], L[-7+i-8][8] = int(info[-1-i]), int(info[-1-i])
 
-def choix_mask(L,c,cor) -> int:
+def choix_mask(L:list, interdit:list, cor:list) -> int:
     """choisit le masque optimal pour le QRcode
 
     Args:
@@ -132,11 +133,11 @@ def choix_mask(L,c,cor) -> int:
     score, mask = [], [0,1,10,11,100,101,110,111]
     for i in mask:
         test = copy.deepcopy(L)
-        appli(test, i, c, cor)
+        appli(test, i, interdit, cor)
         score.append(eval.evaluer(test))
     return mask[score.index(min(score))]
 
-def score(L,c,cor) -> list:
+def score(L:list, c:list, cor:list) -> tuple[list,int]:
     """retourne le score de chaque masque
 
     Args:
@@ -145,6 +146,7 @@ def score(L,c,cor) -> list:
 
     Returns:
         list: score de chaque masque
+        int: masque avec le score minimal
     """
     score, mask = [], [0,1,10,11,100,101,110,111]
     for i in mask:
@@ -153,7 +155,7 @@ def score(L,c,cor) -> list:
         score.append(eval.evaluer(test))
     return score, mask[score.index(min(score))]
 
-def maskoptimal(L, lvl, version:int) -> None:
+def maskoptimal(L:list, lvl:list, version:int) -> None:
     """applique le masque optimal au QRcode
 
     Args:
@@ -167,7 +169,7 @@ def maskoptimal(L, lvl, version:int) -> None:
     c = fu.cases_interdites(L, version)
     return appli(L, choix_mask(L,c,cor), c, cor)
 
-def retirer_masque(L, version:int) -> None:
+def retirer_masque(L:list, version:int) -> None:
     """retire le masque du QRcode
 
     Args:

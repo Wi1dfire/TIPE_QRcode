@@ -7,11 +7,13 @@ import construction as co
 # 0 = noir et 1 = blanc
 
 def reedsolomon(bits:list, lvl : int) -> list:
-    """(GC) Encode les données avec le code correcteur de Reed-Solomon
+    """Encode les données avec le code correcteur de Reed-Solomon
 
     Args:
         octets (list): données à encoder
         lvl (int): niveau de correction
+    Returns:
+        encoded_data (list): liste des données encodé
     """
     n = len(bits)
     correction_symbols = int(n * lvl / 100)
@@ -52,6 +54,8 @@ def QRcode(S:str, lvl:int) -> list:
     Args:
         S (str): information à encoder
         lvl (int): niveau de correction
+    Return:
+        L (list): QRcode
     """
     data = encode_info(S, lvl)
     L, v = co.construit(data)

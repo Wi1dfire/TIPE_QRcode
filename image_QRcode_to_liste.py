@@ -3,14 +3,23 @@ import numpy as np
 import fonctionsutiles as fu
 import matplotlib.image as mpimg
 
-def distance(a,b):
+def distance(a:list,b:list) -> int:
+    """retourne la distance entre 2 points
+
+    Args:
+        a (list): point 1
+        b (list): point 2
+
+    Returns:
+        _type_: _description_
+    """
     V = (np.array(a) - np.array(b))**2
     return np.sqrt((sum(V)))
 
 def projecteur(a):
     pass
 
-def simplifie(image):
+def simplifie(image:list) -> list:
     """remplace les pixels noirs par des 0 et les pixels blancs par des 1
 
     Args:
@@ -39,7 +48,7 @@ def simplifie(image):
             L.append(ligne)
     return L
 
-def coins_QRcode(image):
+def coins_QRcode(image:list) -> list:
     """Repère les coins haut gauche, haut droit et bas gauche du QRcode (premier pixel blanc)
     Et retourne les coordonnées sous forme de tuple
 
@@ -64,7 +73,7 @@ def coins_QRcode(image):
                 BG = [(n-1-i,j), False]
     return HG[0], HD[0], BG[0],
 
-def retire_silence(image):
+def retire_silence(image:list) -> list:
     """retire la zonne de silence autour du QRcode
 
     Args:
@@ -81,7 +90,7 @@ def retire_silence(image):
         image[i] = h[HG[1]:HD[1]+1]
     return image
 
-def calibre(image):
+def calibre(image:list) -> int:
     """Trouve le nombre de pixels d'un carré du QRcode
 
     Args:
@@ -95,7 +104,7 @@ def calibre(image):
             return int(i/7)
     return 1
 
-def recalibrage(image):
+def recalibrage(image:list) -> list:
     """recalibre l'image pour que chaques élément corresponde à un carré du QRcode
 
     Args:

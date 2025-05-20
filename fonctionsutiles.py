@@ -260,6 +260,14 @@ def ecriture(L:list, Données:list, version:int) -> list:
     return L
 
 def get_typeinfo(L:list) -> str:
+    """retourne le type d'info encodée dans une liste de bits
+
+    Args:
+        L (list): liste de bits
+
+    Returns:
+        str: type d'information contenue
+    """
     D = {(0,0,0,1):"numérique",(0,0,1,0):"alphanumérique",(1,0,0,0):"kanji",(0,1,0,0):"binaire"} #on définit les types d'informations
     for i in D.keys(): #on cherche le type d'information
         if all(L[x] == list(i)[x] for x in range(4)):
