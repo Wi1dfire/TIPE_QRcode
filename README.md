@@ -15,21 +15,9 @@
 
 * Généralement
   * commenter
-  * placer des kwargs dans les fonctions
 * Dans `main.py`
   * écrire la fct `reedsolomon_decode`
   * vérifier l'encodage par reedsolomon
-  * erreur dans le décodage certainement dût aux masques ou le passage octet --> str
-* Dans `fonctionsutile.py`
-  * OK
 * Dans `image_QRcode_to_liste.py`
   * revoir `recalibrage`
     * ok pour le momment mais potentiels modifications necessaire j : calibrer sur les motifs de calibrage et pas de placement
-* Dans `structure.py`
-  * OK
-* Dans `loisempiriques.py`
-  * ok
-* Dans `mask.py`
-  * OK
-* Dans `reed-solomon.py`
-  * Tout
