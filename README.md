@@ -19,6 +19,7 @@
 * Dans `main.py`
   * écrire la fct `reedsolomon_decode`
   * vérifier l'encodage par reedsolomon
+  * erreur dans le décodage certainement dût aux masques ou le passage octet --> str
 * Dans `fonctionsutile.py`
   * OK
 * Dans `image_QRcode_to_liste.py`
