@@ -153,25 +153,28 @@ def score(L,c,cor) -> list:
         score.append(eval.evaluer(test))
     return score, mask[score.index(min(score))]
 
-def maskoptimal(L, lvl) -> None:
+def maskoptimal(L, lvl, version:int = 7) -> None:
     """applique le masque optimal au QRcode
 
     Args:
         L (list): QRcode
         lvl (int): niveau de correction
+        version (int, optional): version du QRcode.
     """
     U = [7, 15, 25, 30]
     cor = fb.strbtolistb(bin(U.index(lvl))[2:])
-    c = fu.cases_interdites(L)
+    cor = [0]*(2-len(cor)) + cor
+    c = fu.cases_interdites(L, version)
     return appli(L, choix_mask(L,c,cor), c, cor)
 
-def retirer_masque(L) -> None:
+def retirer_masque(L, version:int = 7) -> None:
     """retire le masque du QRcode
 
     Args:
         L (list): QRcode
+        version (int, optional): version du QRcode.
     """
     masque = fu.masque_utilise(L)
     funcs = {0:mask_000, 1:mask_001, 10:mask_010, 11:mask_011, 100:mask_100, 101:mask_101, 110:mask_110, 111:mask_111}
-    funcs.get(masque)(L, fu.cases_interdites(L))
+    funcs.get(masque)(L, fu.cases_interdites(L, version))
     return L

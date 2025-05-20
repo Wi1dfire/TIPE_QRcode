@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import random as rd
 import image_QRcode_to_liste as iql
 import copy
-import informationsformat as informat
 
 rd.seed(0)
 
@@ -91,11 +90,12 @@ def loc_alignment(L:list) -> list:
                 Loc_centre.append((i+3,j+3))
     return Loc_centre
 
-def cases_interdites(L:list) -> list:
+def cases_interdites(L:list, version: int = 7) -> list:
     """Trouve les emplacements à on ne peut pas placer de bits/d'informations
 
     Args:
         L (list): QRcode dans lequel on cherche les emplacements interdits
+        version (int, optional): version du QRcode. Defaults to 0.
 
     Returns:
         list : liste des emplacements interdits
@@ -120,22 +120,24 @@ def cases_interdites(L:list) -> list:
         for j in range (5):
             for k in range(5):
                 cases.append((i[0]-3+j,i[1]-3+k))
-    for i in range (6): #on protège les zones contenant les informations sur la version
-        for j in range (3):
-            cases.append((i,n-11+j))
-            cases.append((n-11+j,i))
+    if version >= 7: #on protège les informations de version
+        for i in range (6): #on protège les zones contenant les informations sur la version
+            for j in range (3):
+                cases.append((i,n-11+j))
+                cases.append((n-11+j,i))
     return cases
 
-def lecture(L:list) -> list:
+def lecture(L:list, version: int = 7) -> list:
     """lit les données dans le QRcode et les retournes dans une liste de liste (liste d'octets)
 
     Args:
         L (list): QRcode dans duquel lire les donner
+        version (int, optional):version du QRcode
 
     Returns:
         list : liste des octets
     """
-    cases = cases_interdites(L)
+    cases = cases_interdites(L, version)
     n = len(L)-1
     Données = [] #liste qui vat contenir tous les octets
     octet = [] #octet que le vat remplir avant de l'ajouter a la liste donnée
@@ -186,7 +188,7 @@ def lecture(L:list) -> list:
         octet = []
     return Données
 
-def ecriture(L:list, Données:list) -> list:
+def ecriture(L:list, Données:list, version:int = 7) -> list:
     """écrit une liste de données en binaire dans un QRcode
     En place mais le return permet une utilisation plus facile.
 
@@ -197,7 +199,7 @@ def ecriture(L:list, Données:list) -> list:
     Returns:
         list: QRcode
     """
-    cases = cases_interdites(L) #on liste les emplacements interdits
+    cases = cases_interdites(L, version) #on liste les emplacements interdits
     n = len(L)-1
     for i in range ((n//2)-3): #on pacoure le QRcode en colonne de 2 de largeur
         for j in range (n+1): #on parcoure tout les lignes
@@ -272,9 +274,11 @@ def decode(QRcode:list) -> list:
     Returns:
         list: données décodé sous la forme de liste d'octets (sous la forme de liste)
     """
+    n = len(QRcode)
+    version = (n - 21)/4+1 #on récupère la version du QRcode
     L = copy.deepcopy(QRcode) #on fait une copie de l'image pour ne pas la modifier
     iql.recalibrage(L) #on recalibre l'image
-    mask.retirer_masque(L) #on retire le masque pour retrouver les données initiales
+    mask.retirer_masque(L,version) #on retire le masque pour retrouver les données initiales
     données = fb.octetstoliste(lecture(L)) # on lit les données du QRcode
     tipe = get_typeinfo(données) #on récupère le type d'information
     données = données[4:] #on retire le type d'information

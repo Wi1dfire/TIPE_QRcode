@@ -54,18 +54,19 @@ def QRcode(S:str, lvl:int) -> list:
         lvl (int): niveau de correction
     """
     data = encode_info(S, lvl)
-    L = co.construit(data)
-    L = fu.ecriture(L, data)
-    mk.maskoptimal(L, lvl)
+    L, v = co.construit(data)
+    L = fu.ecriture(L, data, v)
+    mk.maskoptimal(L, lvl, v)
     return L
 
 def main():
-    msg = "Hello world!" #input("Que voulez vous encoder ? ")
-    lvl = 30 #int(input("Quel niveau de correction ? "))
+    msg = "Voici une chaîne de 42 caractères exactement!!!" #"Hello world!" #input("Que voulez vous encoder ? ")
+    lvl = 7 #int(input("Quel niveau de correction ? "))
     code = QRcode(msg, lvl)
     fu.affiche_image(code)
     dec = fu.decode(code)
     print("Données décodées : ", dec)
+    #print(code == QRcode(dec,7))
     """L = st.Gen_QRcode(29)
     n=len(L)-1
     alignement = st.alignment()
