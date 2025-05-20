@@ -2,6 +2,8 @@ import structure as st
 import fonctionsutiles as fu
 import os
 import csv
+import fonctionsbase as fb
+import informationsversion as iv
 
 def utilisable(data:list)->list:
     data = data.split(", ")
@@ -23,18 +25,26 @@ def loc_alignements(v:int)->list:
     data_list = utilisable(data_list[v][1])
     return  data_list
 
-def construit(L:list)->list:
+def construit(L:list)->tuple[list, int]:
     v = version(L)
-    QRcode = st.Gen_QRcode(21+4*(v-1))
+    n = 21 + 4*(v-1)
+    QRcode = st.Gen_QRcode(n)
     loc = loc_alignements(v)
     motif = st.alignment()
     for i in range(len(loc)):
         st.insert(QRcode,motif,(loc[i][0]-2,loc[i][1]-2))
-    return QRcode
+    if v >= 7:
+        vers = fb.int_to_bits(v)[2:]
+        infovers = iv.informationsversion(vers)
+        for i in range (len(infovers)):
+            QRcode[i//3][n-11+(i%3)] = infovers[i]
+            QRcode[n-11+(i%3)][i//3] = infovers[i]
+    return QRcode, v
 
 def version(L:list)->int:
     n = len(L)
-    os.chdir("./image_test_QRcode/empirique")
+    qsdg = os.getcwd()
+    os.chdir(".\\image_test_QRcode\\empirique")
     # Ouvrir le fichier CSV et le convertir en liste
     with open('loisempiriques.csv', newline='') as csvfile:
         csvreader = csv.reader(csvfile, delimiter=';')
