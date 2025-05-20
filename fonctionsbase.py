@@ -14,7 +14,7 @@ def int_to_bits(n:int) -> list:
         n (int): entier
 
     Returns:
-        str: entier en binaire
+        list: entier en binaire
     """
     return [int(i) for i in format(n, '08b')]
 
