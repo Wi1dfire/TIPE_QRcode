@@ -90,12 +90,12 @@ def loc_alignment(L:list) -> list:
                 Loc_centre.append((i+3,j+3))
     return Loc_centre
 
-def cases_interdites(L:list, version: int = 7) -> list:
+def cases_interdites(L:list, version:int) -> list:
     """Trouve les emplacements à on ne peut pas placer de bits/d'informations
 
     Args:
         L (list): QRcode dans lequel on cherche les emplacements interdits
-        version (int, optional): version du QRcode. Defaults to 0.
+        version (int): version du QRcode. Defaults to 0.
 
     Returns:
         list : liste des emplacements interdits
@@ -127,12 +127,12 @@ def cases_interdites(L:list, version: int = 7) -> list:
                 cases.append((n-11+j,i))
     return cases
 
-def lecture(L:list, version: int = 7) -> list:
+def lecture(L:list, version:int) -> list:
     """lit les données dans le QRcode et les retournes dans une liste de liste (liste d'octets)
 
     Args:
         L (list): QRcode dans duquel lire les donner
-        version (int, optional):version du QRcode
+        version (int):version du QRcode
 
     Returns:
         list : liste des octets
@@ -188,7 +188,7 @@ def lecture(L:list, version: int = 7) -> list:
         octet = []
     return Données
 
-def ecriture(L:list, Données:list, version:int = 7) -> list:
+def ecriture(L:list, Données:list, version:int) -> list:
     """écrit une liste de données en binaire dans un QRcode
     En place mais le return permet une utilisation plus facile.
 
@@ -279,7 +279,7 @@ def decode(QRcode:list) -> list:
     L = copy.deepcopy(QRcode) #on fait une copie de l'image pour ne pas la modifier
     iql.recalibrage(L) #on recalibre l'image
     mask.retirer_masque(L,version) #on retire le masque pour retrouver les données initiales
-    données = fb.octetstoliste(lecture(L)) # on lit les données du QRcode
+    données = fb.octetstoliste(lecture(L,version)) # on lit les données du QRcode
     tipe = get_typeinfo(données) #on récupère le type d'information
     données = données[4:] #on retire le type d'information
     length = fb.bitslisttoint(données[:8]) #on récupère la longueur de l'information
