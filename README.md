@@ -16,7 +16,6 @@
 * Généralement
 * Dans `main.py`
   * écrire la fct `reedsolomon_decode`
-  * vérifier l'encodage par reedsolomon
 * Dans `image_QRcode_to_liste.py`
   * revoir `recalibrage`
     * ok pour le momment mais potentiels modifications necessaire j : calibrer sur les motifs de calibrage et pas de placement
