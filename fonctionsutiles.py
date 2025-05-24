@@ -282,10 +282,10 @@ def decode(QRcode:list) -> list:
     Returns:
         list: données décodé sous la forme de liste d'octets (sous la forme de liste)
     """
-    n = len(QRcode)
-    version = (n - 21)/4+1 #on récupère la version du QRcode
     L = copy.deepcopy(QRcode) #on fait une copie de l'image pour ne pas la modifier
     iql.recalibrage(L) #on recalibre l'image
+    n = len(L) #on récupère la taille de l'image
+    version = (n - 21)/4+1 #on récupère la version du QRcode
     mask.retirer_masque(L,version) #on retire le masque pour retrouver les données initiales
     données = fb.octetstoliste(lecture(L,version)) # on lit les données du QRcode
     tipe = get_typeinfo(données) #on récupère le type d'information
