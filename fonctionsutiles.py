@@ -90,12 +90,13 @@ def loc_alignment(L:list) -> list:
                 Loc_centre.append((i+3,j+3))
     return Loc_centre
 
-def cases_interdites(L:list, version:int) -> list:
+def cases_interdites(L:list, version:int, format:bool = True) -> list:
     """Trouve les emplacements à on ne peut pas placer de bits/d'informations
 
     Args:
         L (list): QRcode dans lequel on cherche les emplacements interdits
         version (int): version du QRcode. Defaults to 0.
+        format (bool, optional): si on veut protéger les informations de format. Defaults to True.
 
     Returns:
         list : liste des emplacements interdits
@@ -107,14 +108,15 @@ def cases_interdites(L:list, version:int) -> list:
             cases.append((i,j))
             cases.append((i,n-1-j))
             cases.append((n-1-i,j))
-        cases.append((8,i))
-        cases.append((i,8))
-        cases.append((8,n-1-i))
-        cases.append((n-1-i,8))
-    cases.append((8,8))
-    for i in range (n-17): #on protège les motifs de calibrage
-        cases.append((9+i,6))
-        cases.append((6,9+i))
+    if format: #on protège les informations de format
+        for i in range (8):
+            cases.append((i,8))
+            cases.append((8,-1-i))
+            cases.append((-7+i-8,8))
+            cases.append((8,7+8-i))
+    for i in range (n-16): #on protège les motifs de calibrage
+        cases.append((8+i,6))
+        cases.append((6,8+i))
     alignement = loc_alignment(L)
     for i in alignement : #on protège les motifs d'alignement
         for j in range (5):
@@ -273,6 +275,24 @@ def get_typeinfo(L:list) -> str:
         if all(L[x] == list(i)[x] for x in range(4)):
             return D[i] # on récupère le type d'information
 
+def negatif(L:list, v:int =1) -> list:
+    """rectifie le QRcode pour qu'il soit conforme aux normes
+
+    Args:
+        L (list): QRcode à rectifier
+        v (int, optional): version du QRcode surtout utile pour les cases interdites. Defaults to 1.
+
+    Returns:
+        list: QRcode rectifié
+    """
+    n = len(L)
+    interdit = cases_interdites(L, v, False) #on récupère les emplacements interdits
+    for i in range(n):
+        for j in range(n):
+            if (i,j) not in interdit:
+                L[i][j] = (L[i][j] + 1) % 2 #on inverse les bits qui ne sont pas interdits
+    return L
+
 def decode(QRcode:list) -> list:
     """Décode les informations sous la forme octets dans un QRcode
 
@@ -283,7 +303,8 @@ def decode(QRcode:list) -> list:
         list: données décodé sous la forme de liste d'octets (sous la forme de liste)
     """
     L = copy.deepcopy(QRcode) #on fait une copie de l'image pour ne pas la modifier
-    iql.recalibrage(L) #on recalibre l'image
+    L = iql.recalibrage(L) #on recalibre l'image
+    L = negatif(L) #on inverse les bits pour retrouver les données initiales
     n = len(L) #on récupère la taille de l'image
     version = (n - 21)/4+1 #on récupère la version du QRcode
     mask.retirer_masque(L,version) #on retire le masque pour retrouver les données initiales
@@ -309,12 +330,13 @@ def recupinformat(L:list) -> list:
         list: informations de format
     """
     info = []
-    for i in range(8):
+    for i in range(9):
         info.append(L[i][8])
-    for i in range(8, 15):
-        info.append(L[8][7+8-i])
-    info.reverse()
-    return info
+    for i in range(7, 15):
+        info.append(L[8][14-i])
+    info.pop(6)
+    info.pop(9)
+    return fb.XORlist(info[::-1], [1,0,1,0,1,0,0,0,0,0,1,0,0,1,0]) #on récupère les informations de format en appliquant le masque de format
 
 def masque_utilise(L:list) -> int:
     """retourne le masque utilisé dans le QRcode
@@ -325,12 +347,10 @@ def masque_utilise(L:list) -> int:
     Returns:
         int: le masque utilisé dans le QRcode
     """
-    m = [1,0,1,0,1,0,0,0,0,0,1,0,0,1,0]
     iforma = recupinformat(L) #on récupère les informations de format
-    masque= fb.XORlist(iforma,m) #on repère le masque qui à été utilisé
     masq = 0
     for i in range(3): # on cherche le masque utilisé
-        masq += masque[2+i] *(10**(2-i))
+        masq += iforma[2+i] *(10**(2-i))
     return masq
 
 def main():
