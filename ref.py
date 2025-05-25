@@ -13,11 +13,11 @@ if "Le QRcode_V1L.png" not in os.listdir():
         border=5,
         mask_pattern=5  # 101 en binaire = 5 en décimal
     )
-    qrcode.add_data("Le QRcode")
+    qrcode.add_data("LeQRcode")
     qrcode.make(fit=True)
     image = qrcode.make_image(fill='black', back_color='white')
-    image.save("Le QRcode_V1L.png")
-img = mpimg.imread("Le QRcode_V1L.png").tolist()
+    image.save("LeQRcode_V1L.png")
+img = mpimg.imread("LeQRcode_V1L.png").tolist()
 img = iQTL.recalibrage(img)
 img = fu.negatif(img)
 fu.affiche_image(img)
