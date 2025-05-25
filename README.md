@@ -19,3 +19,13 @@
 * Dans `image_QRcode_to_liste.py`
   * revoir `recalibrage`
     * ok pour le momment mais potentiels modifications necessaire j : calibrer sur les motifs de calibrage et pas de placement
+
+# Dernière modif
+
+* `fu`
+  * `recupinformat`
+  * `cases_interdotes`
+    * choix de protéger les informations de format
+* `mask`
+  * `appli`
+    * inscription des informations de format
