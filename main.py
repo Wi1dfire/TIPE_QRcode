@@ -4,7 +4,7 @@ import structure as st
 import fonctionsutiles as fu
 import mask as mk
 import construction as co
-# 0 = noir et 1 = blanc
+# 1 = noir et 0 = blanc
 
 def reedsolomon(bits:list, lvl : int) -> list:
     """Encode les données avec le code correcteur de Reed-Solomon
@@ -15,7 +15,7 @@ def reedsolomon(bits:list, lvl : int) -> list:
     Returns:
         encoded_data (list): liste des données encodé
     """
-    assert lvl in [7, 15, 25, 30]
+    assert lvl in [25, 7, 30, 15]
     n = len(bits)
     donné = bytearray(bits) #on convertit les données en octets
     reeds = rs.RSCodec(int((0.02*lvl*n)//1+1))
@@ -34,7 +34,7 @@ def encode_info(L:str, lvl:int) -> list:
     Returns:
         data (list): données encodées pas rs
     """
-    assert lvl in [7, 15, 25, 30], "Niveau de correction invalide"
+    assert lvl in [25, 7, 30, 15], "Niveau de correction invalide"
     type = fb.typeinfo(L)
     D = {"numérique":[0,0,0,1],"alphanumérique":[0,0,1,0],"kanji":[1,0,0,0],"binaire":[0,1,0,0]}
     data = D[type] #on ajoute le type d'information encodée
@@ -57,15 +57,17 @@ def QRcode(S:str, lvl:int) -> list:
     Return:
         L (list): QRcode
     """
-    data = encode_info(S, lvl)
-    L, v = co.construit(data)
-    L = fu.ecriture(L, data, v)
-    mk.maskoptimal(L, lvl, v)
+    data = encode_info(S, lvl) #on encode les informations dans un QRcode
+    L, v = co.construit(data) #on construit la structure du QRcode
+    L = fu.ecriture(L, data, v) #on écrit les données dans le QRcode
+    mk.maskoptimal(L, lvl, v) #on applique le masque optimal
+    L = fu.negatif(L) #on inverse les couleurs du QRcode
+    L = co.silence(L) #on ajoute une zone de silence autour du QRcode
     return L
 
 def main():
     msg = "Le QRcode" #"hello world" #input("Que voulez vous encoder ? ")
-    lvl = 25 #int(input("Quel niveau de correction ? "))
+    lvl = 7 #int(input("Quel niveau de correction ? "))
     code = QRcode(msg, lvl)
     fu.affiche_image(code)
     #print(reedsolomon(b"Le QRcode", lvl))
