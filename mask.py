@@ -100,7 +100,7 @@ def mask_111(L:list, interdit:list) -> None:
             if (i,j) not in interdit and ((i*j)%3+i+j)%2 == 0 :
                 L[i][j] = (L[i][j] + 1) % 2
 
-def appli(L:list, mask:int, interdit:list, cor:list) -> None:
+def  appli(L:list, mask:int, interdit:list, cor:list) -> None:
     """applique le masque voulut au QRcode
 
     Args:
@@ -114,10 +114,23 @@ def appli(L:list, mask:int, interdit:list, cor:list) -> None:
     masque = fb.strbtolistb(("00"+str(mask))[-3:])
     info = informat.informationsformat(cor, masque)
     #on inscrit les informations de format
-    for i in range (8): 
-        L[i][8], L[8][-1-i] = int(info[-1-i]), int(info[-1-i])
-    for i in range (8, len(info)):
-        L[8][7+8-i], L[-7+i-8][8] = int(info[-1-i]), int(info[-1-i])
+    m,n = -1, -1
+    for i in range (9):
+        if (i,8) != ((6,8)):
+            L[i][8] = int(info[m])
+            m -= 1
+        if (8,-1-i) != (8,-9):
+            L[8][-1-i] = int(info[n])
+            n -= 1
+    for i in range (8, len(info)+1):
+        if (8,7-i+8) != (8,6):
+            L[8][7-i+8] = int(info[m])
+            m -= 1
+        if (-7+i-8,8) != (-7,8) and (-7+i-8) != (0,6):
+            L[-7+i-8][8] = int(info[n])
+            n -= 1
+        else :
+            L[-7+i-8][8] = 1
 
 def choix_mask(L:list, interdit:list, cor:list) -> int:
     """choisit le masque optimal pour le QRcode
@@ -163,7 +176,7 @@ def maskoptimal(L:list, lvl:list, version:int) -> None:
         lvl (int): niveau de correction
         version (int): version du QRcode.
     """
-    U = [7, 15, 25, 30]
+    U = [25, 7, 30, 15]
     cor = fb.strbtolistb(bin(U.index(lvl))[2:])
     cor = [0]*(2-len(cor)) + cor
     c = fu.cases_interdites(L, version)
