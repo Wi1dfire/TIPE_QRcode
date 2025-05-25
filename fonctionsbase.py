@@ -180,3 +180,15 @@ def strbtolistb(L:str) -> list:
         list: liste de bits
     """
     return [1 if i == "1" else 0 for i in L]
+
+def complementaire(L:list) -> list:
+    """Retourne le complémentaire d'une liste de bits 
+    (1 devient 0 et 0 devient 1)
+
+    Args:
+        L (list): liste de bits
+
+    Returns:
+        list: complémentaire de la liste de bits
+    """
+    return [(1 + i) % 2 for i in L ]
