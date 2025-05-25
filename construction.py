@@ -86,6 +86,21 @@ def version(L:list)->int:
         if n <= int(data_list[i][3]):
             return i
 
+def silence(L:list, larg:int = 4)->list:
+    """Ajoute une zone de silence autour du QRcode
+
+    Args:
+        L (list): QRcode
+        larg (int, optional): largeur de la zone de silence. Defaults to 4.
+
+    Returns:
+        list: QRcode avec une zone de silence
+    """
+    n = len(L)
+    hb = [[1] * (n + 2 * larg) for _ in range(larg)]
+    for i in range(n):
+        L[i] = [1]*larg + L[i] + [1]*larg
+    return hb + L + hb
 
 def main():
     pass
