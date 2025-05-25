@@ -83,11 +83,11 @@ def retire_silence(image:list) -> list:
         list: image sans la zone de silence
     """
     HG, HD, BG = coins_QRcode(image)
-    image = image[HG[0]:BG[0]+1]
+    image = image[HG[0]:BG[0]+2]
     n = len(image)
     for i in range (n):
         h = image[i].copy()
-        image[i] = h[HG[1]:HD[1]+1]
+        image[i] = h[HG[1]:HD[1]+2]
     return image
 
 def calibre(image:list) -> int:
