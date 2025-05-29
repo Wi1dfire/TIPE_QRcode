@@ -87,7 +87,7 @@ def loc_alignment(L:list) -> list:
                 if ref[k] != B[k][j:j+5]:
                     b = False
             if b:
-                Loc_centre.append((i+3,j+3))
+                Loc_centre.append((i+2,j+2))
     return Loc_centre
 
 def cases_interdites(L:list, version:int, format:bool = True) -> list:
@@ -121,7 +121,7 @@ def cases_interdites(L:list, version:int, format:bool = True) -> list:
     for i in alignement : #on protège les motifs d'alignement
         for j in range (5):
             for k in range(5):
-                cases.append((i[0]-3+j,i[1]-3+k))
+                cases.append((i[0]-2+j,i[1]-2+k))
     if version >= 7: #on protège les informations de version
         for i in range (6): #on protège les zones contenant les informations sur la version
             for j in range (3):
