@@ -4,6 +4,8 @@ import structure as st
 import fonctionsutiles as fu
 import mask as mk
 import construction as co
+import image_QRcode_to_liste as iQTL
+import matplotlib.image as mpimg
 # 1 = noir et 0 = blanc
 
 def reedsolomon(bits:list, lvl : int) -> list:
@@ -64,6 +66,20 @@ def QRcode(S:str, lvl:int) -> list:
     L = fu.negatif(L) #on inverse les couleurs du QRcode
     L = co.silence(L) #on ajoute une zone de silence autour du QRcode
     return L
+
+def read_QR(L:str) -> str:
+    """Lit les informations d'un QRcode
+
+    Args:
+        L (str): emplacement de l'image du QRcode
+    Returns:
+        data (str): informations lues
+    """
+    img = mpimg.imread(L).tolist() #on lit l'image du QRcode
+    img = iQTL.recalibrage(img) #on recalibre l'image pour que chaques élément corresponde à un carré du QRcode
+    img = fu.negatif(img) #on inverse les couleurs du QRcode
+    data = fu.decode(img) #on décode les données du QRcode
+    return data
 
 def main():
     msg = "Le QRcode" #"hello world" #input("Que voulez vous encoder ? ")
