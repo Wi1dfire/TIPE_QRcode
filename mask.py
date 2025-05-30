@@ -1,4 +1,3 @@
-import fonctionsutiles as fu
 import evaluation as eval
 import copy
 import fonctionsbase as fb
@@ -168,7 +167,7 @@ def score(L:list, c:list, cor:list) -> tuple[list,int]:
         score.append(eval.evaluer(test))
     return score, mask[score.index(min(score))]
 
-def maskoptimal(L:list, lvl:list, version:int) -> None:
+def maskoptimal(L:list, lvl:list, c:list) -> None:
     """applique le masque optimal au QRcode
 
     Args:
@@ -179,17 +178,31 @@ def maskoptimal(L:list, lvl:list, version:int) -> None:
     U = [25, 7, 30, 15]
     cor = fb.strbtolistb(bin(U.index(lvl))[2:])
     cor = [0]*(2-len(cor)) + cor
-    c = fu.cases_interdites(L, version)
     return appli(L, choix_mask(L,c,cor), c, cor)
 
-def retirer_masque(L:list, version:int) -> None:
+def masque_utilise(L:list) -> int:
+    """retourne le masque utilisé dans le QRcode
+
+    Args:
+        L (list): QRcode
+
+    Returns:
+        int: le masque utilisé dans le QRcode
+    """
+    iforma = informat.recupinformat(L) #on récupère les informations de format
+    masq = 0
+    for i in range(3): # on cherche le masque utilisé
+        masq += iforma[2+i] *(10**(2-i))
+    return masq
+
+def retirer_masque(L:list, c:list) -> None:
     """retire le masque du QRcode
 
     Args:
         L (list): QRcode
         version (int): version du QRcode.
     """
-    masque = fu.masque_utilise(L)
+    masque = masque_utilise(L)
     funcs = {0:mask_000, 1:mask_001, 10:mask_010, 11:mask_011, 100:mask_100, 101:mask_101, 110:mask_110, 111:mask_111}
-    funcs.get(masque)(L, fu.cases_interdites(L, version))
+    funcs.get(masque)(L, c)
     return L
