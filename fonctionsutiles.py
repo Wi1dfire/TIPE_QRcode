@@ -8,24 +8,6 @@ import copy
 
 rd.seed(0)
 
-def rotation(L:list) -> list:
-    """effectue une rotation de -pi/2 d'une liste de liste carrée.
-    En place mais le return permet une utilisation plus facile. 
-
-    Args:
-        L (list): liste qu'il faut faire tourner 
-    
-    Returns :
-        list : liste tourné de -pi/2
-    """
-    n = len(L)
-    for i in range (n//2):
-        for j in range(i,n-1-i):
-            L[i][j],L[j][n-1-i]=L[j][n-1-i],L[i][j]
-            L[n-1-j][i], L[i][j] = L[i][j], L[n-1-j][i]
-            L[n-1-i][n-1-j], L[n-1-j][i] = L[n-1-j][i], L[n-1-i][n-1-j]
-    return L
-
 def negatif(L:list) -> list:
     """Effectue un négatif d'une liste de liste carrée.
     En place mais le return permet une utilisation plus facile.
@@ -111,9 +93,10 @@ def cases_interdites(L:list, version:int, format:bool = True) -> list:
     if format: #on protège les informations de format
         for i in range (8):
             cases.append((i,8))
-            cases.append((8,-1-i))
-            cases.append((-7+i-8,8))
-            cases.append((8,7+8-i))
+            cases.append((8,i))
+            cases.append((8,n-1-i))
+            cases.append((n-1-i,8))
+        cases.append((8,8))
     for i in range (n-16): #on protège les motifs de calibrage
         cases.append((8+i,6))
         cases.append((6,8+i))
@@ -190,18 +173,21 @@ def lecture(L:list, version:int) -> list:
         octet = []
     return Données
 
-def ecriture(L:list, Données:list, version:int) -> list:
+def ecriture(L:list, Données:list, version:int, cases:list =None) -> list:
     """écrit une liste de données en binaire dans un QRcode
     En place mais le return permet une utilisation plus facile.
 
     Args:
         L (list): QRcode dans lequel écrire les octets
         Données (list): liste de données en binaire
+        version (int): version du QRcode
+        cases (list, optional): liste des emplacements interdits. Defaults to None.
 
     Returns:
         list: QRcode
     """
-    cases = cases_interdites(L, version) #on liste les emplacements interdits
+    if cases is None: #si on ne donne pas de liste d'emplacements interdits, on les calcule
+        cases = cases_interdites(L, version) #on liste les emplacements interdits
     n = len(L)-1
     for i in range ((n//2)-3): #on pacoure le QRcode en colonne de 2 de largeur
         for j in range (n+1): #on parcoure tout les lignes
@@ -307,7 +293,8 @@ def decode(QRcode:list) -> list:
     L = negatif(L) #on inverse les bits pour retrouver les données initiales
     n = len(L) #on récupère la taille de l'image
     version = (n - 21)/4+1 #on récupère la version du QRcode
-    mask.retirer_masque(L,version) #on retire le masque pour retrouver les données initiales
+    c = cases_interdites(L, version) #on récupère les emplacements interdits
+    mask.retirer_masque(L,c) #on retire le masque pour retrouver les données initiales
     données = fb.octetstoliste(lecture(L,version)) # on lit les données du QRcode
     tipe = get_typeinfo(données) #on récupère le type d'information
     données = données[4:] #on retire le type d'information
@@ -319,39 +306,6 @@ def decode(QRcode:list) -> list:
         return fb.bitstolist(données) #on retourne les données sous forme de liste d'octets
     else :
         return fb.bits_to_str(données) #on retourne les données sous forme de chaine de caractère
-
-def recupinformat(L:list) -> list:
-    """récupère les informations de format du QRcode
-
-    Args:
-        L (list): QRcode
-
-    Returns:
-        list: informations de format
-    """
-    info = []
-    for i in range(9):
-        info.append(L[i][8])
-    for i in range(7, 15):
-        info.append(L[8][14-i])
-    info.pop(6)
-    info.pop(9)
-    return fb.XORlist(info[::-1], [1,0,1,0,1,0,0,0,0,0,1,0,0,1,0]) #on récupère les informations de format en appliquant le masque de format
-
-def masque_utilise(L:list) -> int:
-    """retourne le masque utilisé dans le QRcode
-
-    Args:
-        L (list): QRcode
-
-    Returns:
-        int: le masque utilisé dans le QRcode
-    """
-    iforma = recupinformat(L) #on récupère les informations de format
-    masq = 0
-    for i in range(3): # on cherche le masque utilisé
-        masq += iforma[2+i] *(10**(2-i))
-    return masq
 
 def main():
     print("Main function executed.")
