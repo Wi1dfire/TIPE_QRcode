@@ -1,12 +1,24 @@
 import reedsolo as rs
 import fonctionsbase as fb
-import structure as st
 import fonctionsutiles as fu
 import mask as mk
 import construction as co
 import image_QRcode_to_liste as iQTL
 import matplotlib.image as mpimg
 # 1 = noir et 0 = blanc
+"""
+main.py
+ ├──> construction.py
+ │      ├──> structure.py
+ │      ├──> fonctionsbase.py
+ │      └──> informationsversion.py
+ ├──> fonctionsutiles.py
+ │      ├──> structure.py
+ │      ├──> fonctionsbase.py
+ │      ├──> mask.py
+ │      └──> image_QRcode_to_liste.py
+ ├──> mask.py
+ """
 
 def reedsolomon(bits:list, lvl : int) -> list:
     """Encode les données avec le code correcteur de Reed-Solomon
@@ -61,8 +73,9 @@ def QRcode(S:str, lvl:int) -> list:
     """
     data = encode_info(S, lvl) #on encode les informations dans un QRcode
     L, v = co.construit(data) #on construit la structure du QRcode
-    L = fu.ecriture(L, data, v) #on écrit les données dans le QRcode
-    mk.maskoptimal(L, lvl, v) #on applique le masque optimal
+    cases = fu.cases_interdites(L, v) #on récupère les cases interdites du QRcode
+    L = fu.ecriture(L, data, v, cases) #on écrit les données dans le QRcode
+    mk.maskoptimal(L, lvl, cases) #on applique le masque optimal
     L = fu.negatif(L) #on inverse les couleurs du QRcode
     L = co.silence(L) #on ajoute une zone de silence autour du QRcode
     return L
@@ -90,27 +103,6 @@ def main():
     dec = fu.decode(code)
     print("Données décodées : ", dec)
     #print(code == QRcode(dec,7))
-    """L = st.Gen_QRcode(29)
-    n=len(L)-1
-    alignement = st.alignment()
-    L = st.insert(L,alignement,(n-8,n-8))
-    c = fu.cases_interdites(L)
-    K = []
-    print(typeinfo("10012845640"))"""
-    """
-    for i in range(72):
-        K.append([1,1,0,0,1,0,1,1])
-    données = fb.octetstoliste(K)
-    fu.encode(L,données,101,None,None)
-    fu.affiche_image(L)
-    """
-    """
-    for i in range(72):
-        K.append([18,17,16,15,14,13,12,11])
-    données = fb.octetstoliste(K)
-    fu.ecriture(L,données)
-    fu.affiche_image_rainbow(L)
-    """
 
 if __name__ == "__main__":
     main()
