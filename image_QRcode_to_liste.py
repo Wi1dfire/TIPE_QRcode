@@ -1,7 +1,4 @@
-import os
 import numpy as np
-import fonctionsutiles as fu
-import matplotlib.image as mpimg
 
 def distance(a:list,b:list) -> int:
     """retourne la distance entre 2 points
@@ -129,12 +126,7 @@ def recalibrage(image:list) -> list:
 
 
 def main():
-    """os.chdir('./image_test_QRcode')
-    QRcode = (mpimg.imread('Qr-2.png')).tolist()
-    QRcode = recalibrage(QRcode)
-    fu.affiche_image(QRcode)
-    blanc, noir = [1.0,1.0,1.0], [0.0,0.0,0.0]
-    print(distance(blanc, noir))"""
+    print("executing main")
 
 if __name__ == "__main__":
     main()

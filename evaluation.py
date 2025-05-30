@@ -1,4 +1,4 @@
-import fonctionsutiles as fu
+import structure as st
 
 def eval_line(L:list) -> int:
     """évalue une ligne du QRcode
@@ -26,7 +26,7 @@ def eval_line(L:list) -> int:
     return score
 
 def eval_col(L:list) -> int:
-    return eval_line(fu.rotation(L))
+    return eval_line(st.rotation(L))
 
 def eval_pixel(L:list) -> int:
     """évaluation du QRcode sur les pixel
@@ -58,7 +58,7 @@ def eval_motif(L:list) -> int:
             if j in i :
                 score += 40
     M = L.copy()
-    for i in fu.rotation(M):
+    for i in st.rotation(M):
         for j in motifs:
             if j in i :
                 score += 40
