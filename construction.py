@@ -1,5 +1,4 @@
 import structure as st
-import fonctionsutiles as fu
 import os
 import csv
 import fonctionsbase as fb
@@ -41,6 +40,31 @@ def loc_alignements(v:int)->list:
     data_list = utilisable(data_list[v][1])
     return  data_list
 
+def Gen_QRcode(n:int) -> list:
+    """Génère un QRcode de taille n
+
+    Args:
+        n (int): taille du QRcode
+        o (bool): définit si le QRcode est bien orienté
+
+    Returns:
+        list: QRcode généré
+    """
+    assert 177>=n>=21
+    L = st.init(n)
+    paterne = st.motif()
+    st.insert(L,paterne,(0,0)) #Haut Gauche
+    st.rotation(paterne)
+    st.insert(L,paterne,(0,n-8)) #Haut Droit
+    st.rotation(paterne)
+    st.rotation(paterne)
+    st.insert(L, paterne,(n-8,0)) #Bas Gauche
+    for i in range (n-15):
+        if i % 2 != 0 :
+            L[8+i][6] = 1
+            L[6][8+i] = 1
+    return L
+
 def construit(L:list)->tuple[list, int]:
     """construit le "squelette" du QRcode de la bonne version (qui sera renvoyée) 
     à partir des données que l'on veut y encoder
@@ -53,7 +77,7 @@ def construit(L:list)->tuple[list, int]:
     """
     v = version(L)
     n = 21 + 4*(v-1)
-    QRcode = st.Gen_QRcode(n)
+    QRcode = Gen_QRcode(n)
     loc = loc_alignements(v)
     motif = st.alignment()
     for i in range(len(loc)):

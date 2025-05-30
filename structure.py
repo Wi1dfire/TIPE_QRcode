@@ -1,5 +1,20 @@
-import random as rd
-import fonctionsutiles as fu
+def rotation(L:list) -> list:
+    """effectue une rotation de -pi/2 d'une liste de liste carrée.
+    En place mais le return permet une utilisation plus facile. 
+
+    Args:
+        L (list): liste qu'il faut faire tourner 
+    
+    Returns :
+        list : liste tourné de -pi/2
+    """
+    n = len(L)
+    for i in range (n//2):
+        for j in range(i,n-1-i):
+            L[i][j],L[j][n-1-i]=L[j][n-1-i],L[i][j]
+            L[n-1-j][i], L[i][j] = L[i][j], L[n-1-j][i]
+            L[n-1-i][n-1-j], L[n-1-j][i] = L[n-1-j][i], L[n-1-i][n-1-j]
+    return L
 
 def init(n:int) -> list:
     """Créé un un tableau (liste de liste) de taille n*n remplit de 0
@@ -64,31 +79,6 @@ def insert(L:list,patern:list,A:tuple) -> list:
             L[A[0]+i][A[1]+j] = patern[i][j]
     return L
 
-def Gen_QRcode(n:int) -> list:
-    """Génère un QRcode de taille n
-
-    Args:
-        n (int): taille du QRcode
-        o (bool): définit si le QRcode est bien orienté
-
-    Returns:
-        list: QRcode généré
-    """
-    assert 177>=n>=21
-    L = init(n)
-    paterne = motif()
-    insert(L,paterne,(0,0)) #Haut Gauche
-    fu.rotation(paterne)
-    insert(L,paterne,(0,n-8)) #Haut Droit
-    fu.rotation(paterne)
-    fu.rotation(paterne)
-    insert(L, paterne,(n-8,0)) #Bas Gauche
-    for i in range (n-15):
-        if i % 2 != 0 :
-            L[8+i][6] = 1
-            L[6][8+i] = 1
-    return L
-
 def positionnement(L:list) -> bool:
     """Vérifie si le QRcode est bien orienté
 
@@ -107,9 +97,9 @@ def positionnement(L:list) -> bool:
         HG.append(L[i][:8])
         BG.append(L[n-8+i][:8])
         HD.append(L[i][n-8:])
-    fu.rotation(BG)
+    rotation(BG)
     for i in range(3):
-        fu.rotation(HD)
+        rotation(HD)
     return HG == paterne and HD == paterne and  BG == paterne
 
 def positionnement2(L:list) -> bool:
