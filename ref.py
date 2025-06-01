@@ -1,5 +1,6 @@
 import qrcode as qr
 import os
+import mask
 import matplotlib.image as mpimg
 import image_QRcode_to_liste as iQTL
 import fonctionsutiles as fu  
@@ -21,4 +22,4 @@ img = mpimg.imread("LeQRcode_V1L.png").tolist()
 img = iQTL.recalibrage(img)
 img = fu.negatif(img)
 fu.affiche_image(img)
-print(fu.masque_utilise(img))
+print(mask.masque_utilise(img))

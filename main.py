@@ -90,7 +90,6 @@ def read_QR(L:str) -> str:
     """
     img = mpimg.imread(L).tolist() #on lit l'image du QRcode
     img = iQTL.recalibrage(img) #on recalibre l'image pour que chaques élément corresponde à un carré du QRcode
-    img = fu.negatif(img) #on inverse les couleurs du QRcode
     data = fu.decode(img) #on décode les données du QRcode
     return data
 

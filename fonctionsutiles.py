@@ -272,7 +272,7 @@ def negatif(L:list, v:int =1) -> list:
         list: QRcode rectifié
     """
     n = len(L)
-    interdit = cases_interdites(L, v, False) #on récupère les emplacements interdits
+    interdit = cases_interdites(L, 1, False) #on récupère les emplacements interdits
     for i in range(n):
         for j in range(n):
             if (i,j) not in interdit:
