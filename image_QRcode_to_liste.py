@@ -117,9 +117,9 @@ def recalibrage(image:list) -> list:
     if cal == 1:
         return image
     L = []
-    for i in range (len(image)//cal+1):
+    for i in range (len(image)//cal):
         ligne = []
-        for j in range (len(image)//cal+1):
+        for j in range (len(image)//cal):
             ligne.append(image[i*cal][j*cal])
         L.append(ligne)
     return L
