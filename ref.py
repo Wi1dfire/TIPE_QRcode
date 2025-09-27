@@ -21,5 +21,6 @@ if "Le QRcode_V1L.png" not in os.listdir():
 img = mpimg.imread("LeQRcode_V1L.png").tolist()
 img = iQTL.recalibrage(img)
 img = fu.negatif(img)
+img = mask.retirer_masque(img, fu.cases_interdites(img, 1)) 
 fu.affiche_image(img)
-print(mask.masque_utilise(img))
+print(fu.get_typeinfo(fu.lecture(img, 1)[0]))
